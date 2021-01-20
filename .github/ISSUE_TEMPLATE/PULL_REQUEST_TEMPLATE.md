@@ -14,5 +14,6 @@ assignees: ''
 
 
 ## Kind of
-- [ x ]: New feature
-- [ x ]: Bug
+[x]: New feature
+
+[x]: Bug
