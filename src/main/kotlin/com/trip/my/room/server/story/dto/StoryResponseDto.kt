@@ -1,5 +1,6 @@
-package com.trip.my.room.server.controller.story
+package com.trip.my.room.server.story
 
+import com.trip.my.room.server.picture.PictureResponseDto
 import java.time.LocalDateTime
 
 class StoryResponseDto(
@@ -8,5 +9,6 @@ class StoryResponseDto(
     val memo: String,
     val createdAt: LocalDateTime,
     var updatedAt: LocalDateTime,
-    val userPlaceId: Long
+    val userPlaceId: Long,
+    val pictureList: List<PictureResponseDto>
 ) {}
