@@ -1,4 +1,4 @@
-package com.trip.my.room.server.story
+package com.trip.my.room.server.story.dto
 
 import java.time.LocalDateTime
 
