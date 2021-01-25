@@ -21,6 +21,6 @@ echo "> JAR name: $JAR_NAME"
 
 nohup java -jar \
     -Dspring.profiles.active=release \
-    $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
+    $JAR_NAME > $REPOSITORY/nohup-$GITHUB_SHA.out 2>&1 &
 
 echo "> Deployment finished."
