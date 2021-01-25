@@ -26,7 +26,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-	// swagger
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	runtimeOnly("com.h2database:h2:1.4.200")
+
 	implementation ("io.springfox:springfox-swagger2:2.9.2")
 	implementation ("io.springfox:springfox-swagger-ui:2.9.2")
 	
