@@ -24,5 +24,4 @@ nohup java -jar \
     -Dspring.profiles.active=release \
     $JAR_NAME > $REPOSITORY/nohup-$NOW_DATETIME.out 2>&1 &
 
-
 echo "> Deployment finished."
