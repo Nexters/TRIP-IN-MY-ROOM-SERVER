@@ -16,4 +16,5 @@ fi
 
 bash ../run.sh
 
+
 echo "> Deployment finished."
