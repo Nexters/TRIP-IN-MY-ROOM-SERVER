@@ -5,7 +5,7 @@ name: Kotlin CI with Gradle
 
 on:
   pull_request:
-    branches: 
+    branches:
       - main
     tags-ignore: 
       - WIP

@@ -1,0 +1,46 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Trip in my room deploy to ec2
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_NAME: tripinmyroom
+  AWS_S3_PATH: back-end/tripinmyroom.tgz
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Make zip file
+        run: tar cvzf ./$PROJECT_NAME.tgz script/*.sh appspec.yml build/libs/*.jar
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_S3_UPLOAD_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_S3_UPLOAD_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$PROJECT_NAME.tgz s3://$PROJECT_NAME/$AWS_S3_PATH
+
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name tripinmyroom --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name tripinmyroom-backend --s3-location bucket=$PROJECT_NAME,bundleType=tgz,key=$AWS_S3_PATH
