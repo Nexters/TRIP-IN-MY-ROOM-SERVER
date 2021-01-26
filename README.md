@@ -13,8 +13,13 @@ create database trip;
 ~~~
 show databases;
 ~~~
-4. 유저에게 접근 권한을 줍니다.
+4. 새 유저를 생성하거나 유저에게 접근 권한을 줍니다.
 ~~~
+// 새 유저 생성
+grant all privileges on trip.* to ififif@localhost identified by 'ififif' with grant option;
+flush privileges;
+
+// 기존의 유저에게 권한 부여
 Grant all privileges on trip.* to root@localhost;
 ~~~
 
