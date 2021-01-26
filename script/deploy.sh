@@ -21,7 +21,7 @@ chmod +x $JAR_NAME
 echo "> JAR name: $JAR_NAME"
 
 nohup java -jar \
-    -Dspring.profiles.active=release \
+    -Dspring.profiles.active=prod \
     $JAR_NAME > $REPOSITORY/nohup-$NOW_DATETIME.out 2>&1 &
 
 echo "> Deployment finished."

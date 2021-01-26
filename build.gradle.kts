@@ -5,8 +5,8 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.10.RELEASE"
 	kotlin("jvm") version "1.4.21"
 	kotlin("plugin.spring") version "1.4.21"
-	kotlin("plugin.allopen") version "1.4.0"
-	kotlin("plugin.noarg") version "1.4.0"
+	kotlin("plugin.jpa") version "1.4.21"
+	kotlin("plugin.allopen")  version "1.4.21"
 }
 
 group = "com.trip.in.my.room"
@@ -28,6 +28,7 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("com.h2database:h2:1.4.200")
+	runtimeOnly("mysql:mysql-connector-java:8.0.23")
 
 	implementation ("io.springfox:springfox-swagger2:2.9.2")
 	implementation ("io.springfox:springfox-swagger-ui:2.9.2")

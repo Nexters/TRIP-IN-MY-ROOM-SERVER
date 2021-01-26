@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://tripinmyroom-rds.csi3ui1uyurt.ap-northeast-2.rds.amazonaws.com:3306/tripinmyroom
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: admin
+    password: 12341234
