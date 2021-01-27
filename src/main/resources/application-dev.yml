@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/trip?serverTimezone=UTC&characterEncoding=UTF-8
+    username: ififif
+    password: ififif
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-test-query: SELECT 1
+      maximum-pool-size: 20
+      max-lifetime: 540000
+    initialization-mode: never
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+      jdbc:
+        batch_size: 20
+        lob:
+          non_contextual_creation: true
+      order_inserts: true
+    open-in-view: false

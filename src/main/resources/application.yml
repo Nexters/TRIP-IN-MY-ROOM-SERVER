@@ -1,1 +1,22 @@
+server:
+  port: 6150
+  servlet:
+    context-path: /
 
+spring:
+  profiles:
+    active:
+      - dev
+  application:
+    name:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: NON_NULL
+    serialization:
+      write-null-map-values: false
+    deserialization:
+      accept-single-value-as-array: true
+
+  jpa:
+    hibernate:
+      ddl-auto: create
