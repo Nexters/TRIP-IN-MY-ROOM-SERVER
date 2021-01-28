@@ -21,22 +21,19 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	
+
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	runtimeOnly("com.h2database:h2:1.4.200")
-	runtimeOnly("mysql:mysql-connector-java:8.0.23")
+	implementation("io.springfox:springfox-swagger2:2.9.2")
+	implementation("io.springfox:springfox-swagger-ui:2.9.2")
 
-	implementation ("io.springfox:springfox-swagger2:2.9.2")
-	implementation ("io.springfox:springfox-swagger-ui:2.9.2")
-	
 	// DB
 	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	runtimeOnly("mysql:mysql-connector-java")
+	runtimeOnly("com.h2database:h2:1.4.200")
+	runtimeOnly("mysql:mysql-connector-java:8.0.23")
 }
 
 // kotlin에서는 클래스와 프로퍼티, 함수가 기본적으로 final이므로 상속이 가능하도록 자동 open 설정
