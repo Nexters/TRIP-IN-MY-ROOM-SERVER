@@ -7,6 +7,7 @@ plugins {
 	kotlin("plugin.spring") version "1.4.21"
 	kotlin("plugin.jpa") version "1.4.21"
 	kotlin("plugin.allopen")  version "1.4.21"
+	kotlin("plugin.noarg") version "1.4.21"
 }
 
 group = "com.trip.in.my.room"
