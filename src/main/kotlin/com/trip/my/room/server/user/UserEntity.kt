@@ -20,6 +20,8 @@ class UserEntity {
 	
 	var social: String ?= null
 	
+	var socialId: String ?= null
+	
 	// User 삭제시 rel 테이블의 값도 자동 삭제
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	@OnDelete(action = OnDeleteAction.CASCADE)
