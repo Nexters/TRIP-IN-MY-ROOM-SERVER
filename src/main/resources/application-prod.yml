@@ -6,5 +6,5 @@ spring:
   datasource:
     url: jdbc:mysql://tripinmyroom-rds.csi3ui1uyurt.ap-northeast-2.rds.amazonaws.com:33060/tripinmyroom
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: ${RDB_USERNAME}
-    password: ${RDB_PASSWORD}
+    username: ${RDS_USERNAME}
+    password: ${RDS_PASSWORD}
