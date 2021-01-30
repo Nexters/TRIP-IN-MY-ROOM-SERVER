@@ -1,9 +1,9 @@
-package com.trip.my.room.server.story
+package com.trip.my.room.server.story.controller
 
 import com.trip.my.room.server.picture.PictureResponseDto
-import com.trip.my.room.server.story.dto.StoryCreateRequestDto
-import com.trip.my.room.server.story.dto.StoryPatchRequestDto
-import com.trip.my.room.server.story.dto.StoryResponseDto
+import com.trip.my.room.server.story.controller.dto.StoryCreateRequestDto
+import com.trip.my.room.server.story.controller.dto.StoryPatchRequestDto
+import com.trip.my.room.server.story.controller.dto.StoryResponseDto
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
@@ -31,6 +31,7 @@ class StoryController {
     @PostMapping
     fun createNewStory(@RequestBody storyCreateRequestDto: StoryCreateRequestDto) {
         // TODO 파일 어떻게 받을지 생각. order라는 개념과 함께 매핑할 수 있는지.
+        // Story db 저장 -> 사진 업로드 -> 사진 db 저장 (사진 업로드 정보 + story id)
         println(storyCreateRequestDto)
     }
 

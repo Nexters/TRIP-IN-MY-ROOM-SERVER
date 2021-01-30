@@ -1,4 +1,4 @@
-package com.trip.my.room.server.story.dto
+package com.trip.my.room.server.story.controller.dto
 
 import com.trip.my.room.server.picture.PictureResponseDto
 import java.time.LocalDateTime

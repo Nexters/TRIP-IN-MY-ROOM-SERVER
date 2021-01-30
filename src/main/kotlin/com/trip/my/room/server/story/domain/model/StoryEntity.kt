@@ -1,4 +1,4 @@
-package com.trip.my.room.server.story
+package com.trip.my.room.server.story.domain.model
 
 import com.trip.my.room.server.common.entity.TimeEntity
 import com.trip.my.room.server.place.RelUserPlaceEntity
