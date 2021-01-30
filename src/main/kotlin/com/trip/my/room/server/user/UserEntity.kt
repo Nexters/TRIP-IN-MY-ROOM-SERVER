@@ -18,6 +18,9 @@ class UserEntity {
 	
 	var name: String ?= null
 	
+	// Redis에 저장하면 좋을 듯
+	var refreshToken: String ?= null
+	
 	var social: String ?= null
 	
 	var socialId: String ?= null
