@@ -1,5 +1,7 @@
-package com.trip.my.room.server.user
+package com.trip.my.room.server.user.controller
 
+import com.trip.my.room.server.user.controller.dto.UserPatchResponseDto
+import com.trip.my.room.server.user.controller.dto.UserResponseDto
 import org.springframework.web.bind.annotation.*
 
 @RestController

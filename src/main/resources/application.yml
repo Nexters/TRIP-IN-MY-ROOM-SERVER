@@ -4,11 +4,8 @@ server:
     context-path: /
 
 spring:
-  profiles:
-    active:
-      - dev
   application:
-    name:
+    name: trip-in-my-room
   jackson:
     property-naming-strategy: SNAKE_CASE
     default-property-inclusion: NON_NULL
