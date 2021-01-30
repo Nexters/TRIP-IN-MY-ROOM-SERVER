@@ -8,7 +8,13 @@ plugins {
 	kotlin("plugin.jpa") version "1.4.21"
 	kotlin("plugin.allopen")  version "1.4.21"
 	kotlin("plugin.noarg") version "1.4.21"
+	kotlin("plugin.allopen") version "1.4.0"
+	kotlin("plugin.noarg") version "1.4.0"
+	kotlin("kapt") version "1.4.21"
 }
+
+apply(plugin = "kotlin-jpa")
+apply(plugin = "kotlin-kapt")
 
 group = "com.trip.in.my.room"
 version = "0.0.1-SNAPSHOT"
@@ -22,7 +28,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-devtools")
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("io.jsonwebtoken:jjwt:0.9.0")
+	implementation("com.google.code.gson:gson:2.8.5")
 	
 	// https://spring.io/guides/tutorials/spring-boot-oauth2/
 	implementation("org.springframework.security:spring-security-oauth2-client")

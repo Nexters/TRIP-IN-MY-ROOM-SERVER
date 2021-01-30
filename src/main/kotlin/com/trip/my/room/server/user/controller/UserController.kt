@@ -1,21 +1,32 @@
 package com.trip.my.room.server.user.controller
 
+import com.trip.my.room.server.common.auth.SocialLoginService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
-@RestController
+@Controller
 @RequestMapping("/users")
-class UserController {
+class UserController(@Autowired private val socialLoginService: SocialLoginService) {
     
-    @PostMapping("/join")
-    fun join(): ResponseEntity<Any>{
-        return ResponseEntity.status(HttpStatus.OK).body("join")
-    
+    @GetMapping("/kakao/join")
+    fun KakaoJoin(@RequestParam code : String,
+                  @RequestParam state : String ?= null,
+                  @RequestParam error : String ?= null,
+                  @RequestParam errorDescription: String ?= null): ResponseEntity<Any>{
+        
+        // access_Token, refresh_token, Token Type
+        var kakao_user = socialLoginService.getKakaoUser("kakao", code)
+        return ResponseEntity.status(HttpStatus.OK).body(kakao_user)
     }
     
-    @PostMapping("/login")
-    fun login(): ResponseEntity<Any>{
+    @GetMapping("/login")
+    fun login(@RequestBody redirectDto : SocialReDirectDto.KakaoDto): ResponseEntity<Any>{
         return ResponseEntity.status(HttpStatus.OK).body("login")
     }
     
