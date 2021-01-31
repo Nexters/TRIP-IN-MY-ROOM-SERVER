@@ -7,7 +7,7 @@ import java.util.*
 @Service
 class PictureService(private val pictureUploadRepository: PictureUploadRepository) {
 
-    fun createNewPicture(pictureFiles: List<MultipartFile>): List<PictureResponseDto> {
+    fun createNewPicture(storyId: UUID, pictureFiles: List<MultipartFile>): List<PictureResponseDto> {
         // upload files
         getMappedPictureWithOrder(pictureFiles)
 
