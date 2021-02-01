@@ -2,53 +2,46 @@ package com.trip.my.room.server.story.service
 
 import com.trip.my.room.server.picture.PictureService
 import com.trip.my.room.server.story.controller.dto.StoryCreateRequestDto
-<<<<<<< HEAD
-import com.trip.my.room.server.story.domain.repository.StoryRepository
-import org.springframework.stereotype.Service
-
-@Service
-class StoryService (private val pictureService: PictureService,
-                    private val storyRepository: StoryRepository) {
-
-    fun createNewStory(storyCreateRequestDto: StoryCreateRequestDto) : Nothing {
-        // story 만들고
-
-
-        storyRepository.save()
-
-        // 해당 id와 함께 사진 업로드
-        // 그리고 리턴
-=======
-import com.trip.my.room.server.story.domain.model.StoryEntity
 import com.trip.my.room.server.story.domain.repository.StoryRepository
 import org.springframework.stereotype.Service
 import java.util.*
 import javax.transaction.Transactional
 
 @Service
-class StoryService(private val pictureService: PictureService,
-                   private val storyRepository: StoryRepository) {
+class StoryService(
+    private val pictureService: PictureService,
+    private val storyRepository: StoryRepository
+) {
 
     fun getStoriesByUserId(userId: UUID) {
         val storyEntityList = storyRepository.findByUserId(userId)
         println(storyEntityList)
     }
 
+    // TODO: Story db 저장 -> 사진 업로드 -> 사진 db 저장 (사진 업로드 정보 + story id)
     @Transactional
-    fun createNewStory(storyCreateRequestDto: StoryCreateRequestDto) {
-        // Story db 저장 -> 사진 업로드 -> 사진 db 저장 (사진 업로드 정보 + story id)
+    fun createNewStory(userId: UUID, storyCreateRequestDto: StoryCreateRequestDto) {
 
-        val storyEntity = storyCreateRequestDto.toEntity()
+        val storyEntity = storyCreateRequestDto.toEntity(userId)
         val savedStoryEntity = storyRepository.save(storyEntity)
 
         val storyId = savedStoryEntity.id
-        // TODO: 사진 업로드
+        println("storyId: $storyId")
+
+        // TODO: Implement and mix user_place_relation logic
+
+        // TODO: 사진 업로드 로직
         // pictureService.createNewPicture(storyId, files)
+    }
+
+    // TODO 사진 삭제, 새로운 사진 업로드, 사진 배열 변경 주의
+    @Transactional
+    fun patchStory() {
+
     }
 
     fun deleteStory(storyId: UUID) {
         storyRepository.deleteById(storyId)
->>>>>>> 00c3af1c91a6b4d0af3bb413ce0b1b810207db71
     }
 
 }

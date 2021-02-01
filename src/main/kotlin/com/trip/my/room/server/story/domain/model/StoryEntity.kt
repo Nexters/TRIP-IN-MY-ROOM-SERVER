@@ -8,22 +8,32 @@ import java.util.*
 import javax.persistence.*
 
 @Entity(name = "story")
-class StoryEntity : TimeEntity(){
-	
-	@field:Id
-	@field:GeneratedValue(strategy = GenerationType.AUTO)
-	var id: UUID ?= null
-	
-	@field: ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "rel_user_place_id")
-	var userPlace : RelUserPlaceEntity?= null
-	
-	var title: String ?= null
-	
-	var date: Instant ?= null
-	
-	var memo: String ?= null
-	
-	@field: LastModifiedDate
-	var updatedAt : Instant ?= null
+class StoryEntity(
+    title: String,
+    date: Instant,
+    memo: String,
+    experiencePlace: String,
+    userId: UUID
+) : TimeEntity() {
+
+    @field:Id
+    @field:GeneratedValue(strategy = GenerationType.AUTO)
+    var id: UUID? = null
+
+    @field: ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rel_user_place_id")
+    var userPlace: RelUserPlaceEntity? = null
+
+    var title: String? = title
+
+    var date: Instant? = date
+
+    var memo: String? = memo
+
+    var experiencePlace: String? = experiencePlace
+
+    @field: LastModifiedDate
+    var updatedAt: Instant? = null
+
+    var userId: UUID? = userId
 }

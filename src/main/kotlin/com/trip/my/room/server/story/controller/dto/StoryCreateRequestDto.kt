@@ -4,14 +4,14 @@ import com.trip.my.room.server.story.domain.model.StoryEntity
 import java.time.Instant
 import java.util.*
 
-class StoryCreateRequestDto(
+data class StoryCreateRequestDto(
     val title: String,
     val date: Instant,
     val memo: String,
-    val placeName: String
+    val experiencePlace: String
 ) {
 
-    fun toEntity(): StoryEntity {
-        return StoryEntity(title, date, memo, UUID(1, 1))
+    fun toEntity(userId: UUID): StoryEntity {
+        return StoryEntity(title, date, memo, experiencePlace, userId)
     }
 }
