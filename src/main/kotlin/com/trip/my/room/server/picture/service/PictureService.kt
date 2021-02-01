@@ -1,15 +1,16 @@
-package com.trip.my.room.server.picture
+package com.trip.my.room.server.picture.service
 
+import com.trip.my.room.server.picture.controller.PictureResponseDto
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 @Service
-class PictureService(private val pictureUploadRepository: PictureUploadRepository) {
+class PictureService() {
 
     fun createNewPicture(storyId: UUID, pictureFiles: List<MultipartFile>): List<PictureResponseDto> {
         // upload files
-        getMappedPictureWithOrder(pictureFiles)
+//        getMappedPictureWithOrder(pictureFiles)
 
         // db 접근해서 picture 만듬
 
@@ -20,7 +21,7 @@ class PictureService(private val pictureUploadRepository: PictureUploadRepositor
     }
 
     private fun getMappedPictureWithOrder(pictureFiles: List<MultipartFile>) {
-        pictureUploadRepository.getMappingPictureUrlWithOrder(emptyList())
+//        pictureUploadRepository.getMappingPictureUrlWithOrder(emptyList())
         // TODO: 업데이트한다고 생각했을 때 업로드하는 친구도 있고 안하는 친구도 있을 수 있다!!!
         TODO("Mapping order and picture")
     }

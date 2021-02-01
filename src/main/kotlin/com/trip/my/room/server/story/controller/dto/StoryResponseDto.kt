@@ -1,9 +1,9 @@
 package com.trip.my.room.server.story.controller.dto
 
-import com.trip.my.room.server.picture.PictureResponseDto
+import com.trip.my.room.server.picture.controller.PictureResponseDto
 import java.time.LocalDateTime
 
-class StoryResponseDto(
+data class StoryResponseDto(
     val id: Long,
     val date: LocalDateTime,
     val memo: String,

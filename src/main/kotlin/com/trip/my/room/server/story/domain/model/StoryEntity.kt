@@ -36,4 +36,11 @@ class StoryEntity(
     var updatedAt: Instant? = null
 
     var userId: UUID? = userId
+
+    fun update(title: String, date: Instant, memo: String, experiencePlace: String) {
+        this.title = title
+        this.date = date
+        this.memo = memo
+        this.experiencePlace = experiencePlace
+    }
 }

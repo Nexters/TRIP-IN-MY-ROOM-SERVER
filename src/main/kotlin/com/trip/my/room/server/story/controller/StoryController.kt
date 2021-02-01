@@ -1,6 +1,6 @@
 package com.trip.my.room.server.story.controller
 
-import com.trip.my.room.server.picture.PictureResponseDto
+import com.trip.my.room.server.picture.controller.PictureResponseDto
 import com.trip.my.room.server.story.controller.dto.StoryCreateRequestDto
 import com.trip.my.room.server.story.controller.dto.StoryPatchRequestDto
 import com.trip.my.room.server.story.controller.dto.StoryResponseDto
@@ -45,9 +45,10 @@ class StoryController(private val storyService: StoryService) {
 
     @PatchMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    fun patchStory(@PathVariable id: Long, @RequestBody storyPatchRequestDto: StoryPatchRequestDto) {
+    fun patchStory(@PathVariable id: UUID, @RequestBody storyPatchRequestDto: StoryPatchRequestDto) {
         // TODO: 사진을 삭제 생각, 사진 새로 업로드 생각.
-        println(storyPatchRequestDto)
+        println("id=$id, patchDto=$storyPatchRequestDto")
+        storyService.patchStory(id, storyPatchRequestDto)
     }
 
     @DeleteMapping("/{id}")

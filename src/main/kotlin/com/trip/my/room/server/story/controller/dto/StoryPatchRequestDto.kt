@@ -1,11 +1,12 @@
 package com.trip.my.room.server.story.controller.dto
 
-import com.trip.my.room.server.picture.PictureResponseDto
-import java.time.LocalDateTime
+import com.trip.my.room.server.picture.controller.PictureResponseDto
+import java.time.Instant
 
-class StoryPatchRequestDto (
-    val date: LocalDateTime,
+data class StoryPatchRequestDto (
+    val title: String,
+    val date: Instant,
     val memo: String,
-    val placeName: String,
-    val pictureList: List<PictureResponseDto>
+    val experiencePlace: String,
+    var pictureList: List<PictureResponseDto>?
 ) {}
