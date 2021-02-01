@@ -1,13 +1,13 @@
 package com.trip.my.room.server.story.controller
 
-import com.trip.my.room.server.picture.controller.PictureResponseDto
+import com.trip.my.room.server.picture.PictureResponseDto
 import com.trip.my.room.server.story.controller.dto.StoryCreateRequestDto
 import com.trip.my.room.server.story.controller.dto.StoryPatchRequestDto
 import com.trip.my.room.server.story.controller.dto.StoryResponseDto
 import com.trip.my.room.server.story.service.StoryService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDateTime
+import java.time.Instant
 import java.util.*
 
 @RestController
@@ -15,7 +15,7 @@ import java.util.*
 class StoryController(private val storyService: StoryService) {
 
     @GetMapping
-    fun getStories(): List<StoryResponseDto> {
+    fun getAllStories(): List<StoryResponseDto> {
         // TODO: Get userId from login information (session or token)
         // storyService.getStoriesByUserId(UUID(1, 1))
 
@@ -23,14 +23,31 @@ class StoryController(private val storyService: StoryService) {
 
         return listOf(
             StoryResponseDto(
-                1,
-                LocalDateTime.now(),
+                UUID.randomUUID(),
+                Instant.now(),
                 "memo",
-                LocalDateTime.now(),
-                LocalDateTime.now(),
-                1,
+                Instant.now(),
+                Instant.now(),
+                "우리집",
                 listOf(pictureResponseDto)
             )
+        )
+    }
+
+    @GetMapping("/{id}")
+    fun getStory(@PathVariable id: UUID): StoryResponseDto {
+        // storyService.getStoriesById(id)
+
+        val pictureResponseDto = PictureResponseDto(1, 1, "https://hello.world/temp.jpg", "temp.jpg", 1)
+
+        return StoryResponseDto(
+            UUID.randomUUID(),
+            Instant.now(),
+            "memo",
+            Instant.now(),
+            Instant.now(),
+            "우리집",
+            listOf(pictureResponseDto)
         )
     }
 
@@ -47,15 +64,14 @@ class StoryController(private val storyService: StoryService) {
     @ResponseStatus(code = HttpStatus.OK)
     fun patchStory(@PathVariable id: UUID, @RequestBody storyPatchRequestDto: StoryPatchRequestDto) {
         // TODO: 사진을 삭제 생각, 사진 새로 업로드 생각.
-        println("id=$id, patchDto=$storyPatchRequestDto")
+        println("story id=$id, patchDto=$storyPatchRequestDto")
         storyService.patchStory(id, storyPatchRequestDto)
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    fun deleteStory(@PathVariable id: String) {
+    fun deleteStory(@PathVariable id: UUID) {
         println("delete story. id=$id")
-        val storyIdFromStringUUID = UUID.fromString(id)
-        storyService.deleteStory(storyIdFromStringUUID)
+        storyService.deleteStory(id)
     }
 }

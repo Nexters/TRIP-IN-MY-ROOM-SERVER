@@ -1,8 +1,8 @@
 package com.trip.my.room.server.story.service
 
-import com.trip.my.room.server.picture.service.PictureService
 import com.trip.my.room.server.story.controller.dto.StoryCreateRequestDto
 import com.trip.my.room.server.story.controller.dto.StoryPatchRequestDto
+import com.trip.my.room.server.story.controller.dto.StoryResponseDto
 import com.trip.my.room.server.story.domain.repository.StoryRepository
 import org.springframework.stereotype.Service
 import java.util.*
@@ -10,12 +10,26 @@ import javax.transaction.Transactional
 
 @Service
 class StoryService(
-    private val pictureService: PictureService,
     private val storyRepository: StoryRepository
 ) {
-    fun getStoriesByUserId(userId: UUID) {
+    fun getAllStoriesByUserId(userId: UUID) {
         val storyEntityList = storyRepository.findByUserId(userId)
+
         println(storyEntityList)
+    }
+
+    fun getStoriesById(storyId: UUID): StoryResponseDto {
+        val foundStoryEntity = storyRepository.findById(storyId).orElseThrow()
+
+        return StoryResponseDto(
+            foundStoryEntity.id,
+            foundStoryEntity.date,
+            foundStoryEntity.memo,
+            foundStoryEntity.createdAt,
+            foundStoryEntity.updatedAt,
+            foundStoryEntity.experiencePlace,
+            emptyList() // TODO: Add releated picture object
+        )
     }
 
     // TODO: Story db 저장 -> 사진 업로드 -> 사진 db 저장 (사진 업로드 정보 + story id)
@@ -38,10 +52,12 @@ class StoryService(
     fun patchStory(storyId: UUID, storyPatchRequestDto: StoryPatchRequestDto) {
         val foundStory = storyRepository.findById(storyId).orElseThrow()
 
-        foundStory.update(storyPatchRequestDto.title,
-                storyPatchRequestDto.date,
-                storyPatchRequestDto.memo,
-                storyPatchRequestDto.experiencePlace)
+        foundStory.update(
+            storyPatchRequestDto.title,
+            storyPatchRequestDto.date,
+            storyPatchRequestDto.memo,
+            storyPatchRequestDto.experiencePlace
+        )
 
         // TODO: 사진 변경 로직
     }

@@ -1,6 +1,6 @@
 package com.trip.my.room.server.picture.service
 
-import com.trip.my.room.server.picture.controller.PictureResponseDto
+import com.trip.my.room.server.picture.PictureResponseDto
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.util.*
