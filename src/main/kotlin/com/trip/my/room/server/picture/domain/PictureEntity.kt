@@ -1,7 +1,7 @@
-package com.trip.my.room.server.picture
+package com.trip.my.room.server.picture.domain
 
 import com.trip.my.room.server.common.enum.PictureOrder
-import com.trip.my.room.server.story.StoryEntity
+import com.trip.my.room.server.story.domain.model.StoryEntity
 import java.util.*
 import javax.persistence.*
 
