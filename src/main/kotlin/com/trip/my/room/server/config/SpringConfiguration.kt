@@ -25,5 +25,4 @@ class SpringConfiguration {
 	fun setTimeZone(){
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
 	}
-	
 }

@@ -1,10 +1,12 @@
-package com.trip.my.room.server.common.jwt
+package com.trip.my.room.server.user.jwt
+
+import java.util.*
 
 
 class UserTokenDto {
 	
 	open class UserInfo {
-		lateinit var userId : String
+		lateinit var userId : UUID
 		lateinit var social : String
 		var name : String ?= null
 	}

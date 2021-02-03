@@ -1,7 +1,7 @@
-package com.trip.my.room.server.common.auth.client
+package com.trip.my.room.server.user.service
 
 import com.google.gson.Gson
-import com.trip.my.room.server.common.auth.data.KakaoUser
+import com.trip.my.room.server.user.dto.KakaoUser
 import com.trip.my.room.server.config.MyConfigurationProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
@@ -15,8 +15,8 @@ import java.net.URI
 
 
 @Service
-class KakaoClient(@Autowired private val restTemplate: RestTemplate,
-				  @Autowired private val myConfigProps: MyConfigurationProperties) {
+class KakaoClientService(@Autowired private val restTemplate: RestTemplate,
+						 @Autowired private val myConfigProps: MyConfigurationProperties) {
 	
 	// autorize_code -> access_token, refresh_token
 	fun getUser(authorize_code: String): KakaoUser? {
