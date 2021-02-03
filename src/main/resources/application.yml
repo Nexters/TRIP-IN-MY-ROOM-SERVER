@@ -3,7 +3,19 @@ server:
   servlet:
     context-path: /
 
+my:
+  propereties:
+    kakao:
+      clientId:
+      authBaseUrl:
+      apiBaseUrl:
+      redirectUrl:
+      grantType: "authorization_code"
+
 spring:
+  profiles:
+    active:
+      -
   application:
     name: trip-in-my-room
   jackson:

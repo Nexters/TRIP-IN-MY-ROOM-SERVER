@@ -1,6 +1,7 @@
 package com.trip.my.room.server.user
 
 import com.trip.my.room.server.place.RelUserPlaceEntity
+import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import org.jetbrains.annotations.NotNull
@@ -11,8 +12,11 @@ import javax.persistence.*
 class UserEntity {
 	
 	@field: Id
-	@field: GeneratedValue(strategy = GenerationType.AUTO)
+	@field: GeneratedValue(generator = "uuid2", strategy = GenerationType.AUTO)
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@field: Column(columnDefinition = "BINARY(16)")
 	var id: UUID ?= null
+	
 	
 	var email: String ?= null
 	

@@ -1,4 +1,4 @@
-package com.trip.my.room.server.user
+package com.trip.my.room.server.user.dto
 
 class SocialReDirectDto {
 	

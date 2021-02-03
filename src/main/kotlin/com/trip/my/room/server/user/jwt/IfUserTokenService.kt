@@ -1,5 +1,6 @@
-package com.trip.my.room.server.common.jwt
+package com.trip.my.room.server.user.jwt
 
+import com.trip.my.room.server.user.IfUserPrincipal
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.util.*
+import javax.servlet.http.HttpServletRequest
 
 
 @Service
@@ -15,7 +18,15 @@ class IfUserTokenService {
 	// 토큰의 서명을 위한 값
 	var ifSignKey : String = "IfIfIf";
 	
-	fun createToken(userInfo: UserTokenDto.UserInfo, expSec : Long = 60 ): String {
+	// https://do-study.tistory.com/106
+	fun parseTokenString(request: HttpServletRequest): String? {
+		val bearerToken = request.getHeader("Authorization")
+		return if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+			bearerToken.substring(7)
+		} else null
+	}
+	
+	fun createToken(userInfo: UserTokenDto.UserInfo, expSec: Long = 3000): String {
 		
 		// Headers
 		var headers : MutableMap<String, Any> = mutableMapOf();
@@ -41,27 +52,38 @@ class IfUserTokenService {
 				.setClaims(payloads)
 				.signWith(SignatureAlgorithm.HS256, ifSignKey.toByteArray())
 				.compact()
-		
 		return jwt
 	}
 	
-	fun verifyToken(token : String): Boolean {
-		var claims : Claims = Jwts.parser()
+	fun getUserIdFromToken(token: String?): UUID {
+		val claims: Claims = Jwts.parser()
 				.setSigningKey(ifSignKey.toByteArray())
 				.parseClaimsJws(token)
-				.body
+				.getBody()
+		return UUID.fromString(claims.get("ID") as String)
+	}
+	
+	fun verifyToken(token: String?): Boolean {
+		try {
+			var claims : Claims = Jwts.parser()
+					.setSigningKey(ifSignKey.toByteArray())
+					.parseClaimsJws(token)
+					.body
 		
-		var expiredTime : Long = claims.get("EXP") as Long
-		println(expiredTime)
-		val currentTime : Long = Instant.now().toEpochMilli()
-		if (currentTime < expiredTime){
-			println("유효함")
-			return true
-		} else {
-			println("만료됨")
+			var expiredTime : Long = claims.get("EXP") as Long
+			val currentTime : Long = Instant.now().toEpochMilli()
+			if (currentTime < expiredTime){
+				return true
+			}
+		} catch (e : Exception){
+			return false
 		}
 		return false
 	}
 	
+	fun createAuthentication(token: String, userId: UUID): IfAuthenticationToken {
+		var ifUserPrincipal = IfUserPrincipal(userId)
+		return IfAuthenticationToken(ifUserPrincipal, token)
+	}
 }
 

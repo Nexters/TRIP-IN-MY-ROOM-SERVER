@@ -1,4 +1,4 @@
-package com.trip.my.room.server.user
+package com.trip.my.room.server.user.controller
 
 import com.trip.my.room.server.config.MyConfigurationProperties
 import org.springframework.beans.factory.annotation.Autowired
@@ -7,7 +7,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
-class LoginController(@Autowired val myConfig: MyConfigurationProperties) {
+class LoginTestController(@Autowired val myConfig: MyConfigurationProperties) {
 	
 	@GetMapping("")
 	fun loginPage(model: Model): String {

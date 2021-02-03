@@ -1,4 +1,4 @@
-package com.trip.my.room.server.common.auth.data
+package com.trip.my.room.server.user.dto
 
 data class KakaoUser(
 		var token_type : String,
