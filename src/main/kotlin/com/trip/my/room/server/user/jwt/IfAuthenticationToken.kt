@@ -15,6 +15,12 @@ class IfAuthenticationToken : AbstractAuthenticationToken {
 		this.isAuthenticated = true
 	}
 	
+	constructor(principal: IfUserPrincipal, token: String, authenticated: Boolean) : super(null)  {
+		this.principal = principal
+		this.credentials = token
+		this.isAuthenticated = authenticated
+	}
+	
 	constructor(principal: IfUserPrincipal, token: String, authorities: Collection<GrantedAuthority?>?) : super(authorities) {
 		this.principal = principal
 		this.credentials = token

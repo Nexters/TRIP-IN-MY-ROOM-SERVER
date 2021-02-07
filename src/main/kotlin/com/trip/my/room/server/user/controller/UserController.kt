@@ -50,11 +50,19 @@ class UserController(@Autowired private val socialLoginService: SocialLoginServi
         return ResponseEntity.status(HttpStatus.OK).body(userInfo)
     }
     
+    @PostMapping("/token/refresh/{refreshToken}")
+    fun reNewToken(@AuthenticationPrincipal principal: IfUserPrincipal, @PathVariable refreshToken: String): ResponseEntity<MutableMap<String, Any>> {
+        var userId: UUID = principal.getUserUUID()
+        var user: UserEntity = userService.findUserEntityByUserId(userId)
+        var jwt = ifUserTokenService.reNewAccessToken(user, refreshToken)
+        return ResponseEntity.status(HttpStatus.OK).body(jwt)
+    }
+    
     @ApiOperation("로그아웃")
     @PostMapping("/logout")
     fun logout(): ResponseEntity<Any>{
         // remove refresh token
-        return ResponseEntity.status(HttpStatus.OK).body("logout")
+        return ResponseEntity.status(HttpStatus.OK).build()
     }
 
 }

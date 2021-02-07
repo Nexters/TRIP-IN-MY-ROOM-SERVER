@@ -30,6 +30,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 		http.authorizeRequests()
 //				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 				.antMatchers("/users/**").authenticated()
+				.antMatchers("/users/token/refresh/**").permitAll()
 		
 		// 토큰 인증 필터 추가
 		http.addFilterBefore(getIfTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)

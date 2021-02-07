@@ -16,10 +16,12 @@ class IfTokenAuthenticationFilter(): OncePerRequestFilter() {
 	
 	override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
 		val token = ifUserTokenService.parseTokenString(request)
+		var authenticated : Boolean = true
 		if (ifUserTokenService.verifyToken(token)){
+//		if (("/users/token/refresh" in request.requestURI) or ifUserTokenService.verifyToken(token)){
 			val userId = ifUserTokenService.getUserIdFromToken(token)
 			try {
-				val authentication = ifUserTokenService.createAuthentication(token!!, userId)
+				val authentication = ifUserTokenService.createAuthentication(token!!, userId, authenticated)
 				authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 				SecurityContextHolder.getContext().authentication = authentication
 			} catch (e : UsernameNotFoundException){
