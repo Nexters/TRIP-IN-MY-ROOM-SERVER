@@ -34,6 +34,10 @@ class UserService(@Autowired private val userRepository: UserRepository) {
 		}
 	}
 	
+	fun findUserEntityByUserId(userId : UUID): UserEntity {
+		return userRepository.findById(userId).get()
+	}
+ 
 	fun isExistEmail(userEmail: String): Boolean {
 		var result = userRepository.findByEmail(userEmail)
 		if (result.isPresent){
