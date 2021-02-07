@@ -1,4 +1,4 @@
-package com.trip.my.room.server.picture
+package com.trip.my.room.server.picture.controller
 
 class PictureResponseDto(
     val id: Long,

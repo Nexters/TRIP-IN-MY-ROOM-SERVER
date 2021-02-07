@@ -8,3 +8,8 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     username: ${RDS_USERNAME}
     password: ${RDS_PASSWORD}
+
+cloud:
+  aws:
+    credentials:
+      instanceProfile: true

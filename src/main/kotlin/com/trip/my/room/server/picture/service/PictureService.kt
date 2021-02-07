@@ -1,12 +1,12 @@
 package com.trip.my.room.server.picture.service
 
-import com.trip.my.room.server.picture.PictureResponseDto
+import com.trip.my.room.server.picture.controller.PictureResponseDto
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 @Service
-class PictureService() {
+class PictureService {
 
     fun createNewPicture(storyId: UUID, pictureFiles: List<MultipartFile>): List<PictureResponseDto> {
         // upload files
