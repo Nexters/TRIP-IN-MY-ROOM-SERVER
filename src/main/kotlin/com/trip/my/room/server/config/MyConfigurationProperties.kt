@@ -15,6 +15,4 @@ class MyConfigurationProperties {
 		return "MyConfigurationProperties(clientId='$clientId', authBaseUrl='$authBaseUrl'," +
 				" apiBaseUrl='$apiBaseUrl', redirectUrl='$redirectUrl', grantType='$grantType')"
 	}
-	
-	
 }

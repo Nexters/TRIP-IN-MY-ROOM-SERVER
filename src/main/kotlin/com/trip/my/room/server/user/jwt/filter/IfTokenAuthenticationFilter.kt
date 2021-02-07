@@ -16,9 +16,6 @@ class IfTokenAuthenticationFilter(): OncePerRequestFilter() {
 	
 	override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
 		val token = ifUserTokenService.parseTokenString(request)
-		if (token == null){
-			println("토큰 타입 오류(Bearer여야 함)")
-		}
 		if (ifUserTokenService.verifyToken(token)){
 			val userId = ifUserTokenService.getUserIdFromToken(token)
 			try {

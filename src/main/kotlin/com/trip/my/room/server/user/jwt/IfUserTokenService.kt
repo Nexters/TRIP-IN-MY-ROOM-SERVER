@@ -1,6 +1,7 @@
 package com.trip.my.room.server.user.jwt
 
 import com.trip.my.room.server.user.IfUserPrincipal
+import com.trip.my.room.server.user.UserEntity
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -26,7 +27,7 @@ class IfUserTokenService {
 		} else null
 	}
 	
-	fun createToken(userInfo: UserTokenDto.UserInfo, expSec: Long = 3000): String {
+	fun createToken(userEntity: UserEntity, expSec: Long = 3000): MutableMap<String, Any> {
 		
 		// Headers
 		var headers : MutableMap<String, Any> = mutableMapOf();
@@ -44,15 +45,16 @@ class IfUserTokenService {
 		payloads.put("ISS", "Nexters6team") // 토큰 발급자
 		payloads.put("EXP", expriedDateTime) // 토큰 만료일(Instant)
 		payloads.put("IAT", iat.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) // 토큰이 발급된 시간(Instant)
-		payloads.put("ID", userInfo.userId) // User ID
-		payloads.put("SOCIAL", userInfo.social) // Social 가입 경로
+		payloads.put("ID", userEntity.id!!) // User ID
+		payloads.put("SOCIAL", userEntity.social!!) // Social 가입 경로
 		
-		var jwt: String = Jwts.builder()
+		var accessToken: String = Jwts.builder()
 				.setHeader(headers)
 				.setClaims(payloads)
 				.signWith(SignatureAlgorithm.HS256, ifSignKey.toByteArray())
 				.compact()
-		return jwt
+		
+		return mutableMapOf<String, Any>("tokenType" to "Bearer", "access_token" to accessToken, "exp" to expriedDateTime)
 	}
 	
 	fun getUserIdFromToken(token: String?): UUID {

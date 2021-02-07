@@ -2,6 +2,7 @@ package com.trip.my.room.server.user.service
 
 import com.trip.my.room.server.user.UserEntity
 import com.trip.my.room.server.user.UserRepository
+import com.trip.my.room.server.user.dto.UserDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -13,7 +14,7 @@ class UserService(@Autowired private val userRepository: UserRepository) {
 		userRepository.save(userEntity)
 	}
 	
-	fun join(userJoinIn: UserRequestDto.UserJoinIn): UserEntity {
+	fun join(userJoinIn: UserDto.UserJoinIn): UserEntity {
 		var newUser : UserEntity = UserEntity().apply {
 			this.email = userJoinIn.email
 			this.name = userJoinIn.name
@@ -24,7 +25,24 @@ class UserService(@Autowired private val userRepository: UserRepository) {
 		return newUser
 	}
 	
-	fun findByUserId(userId : UUID): UserEntity {
-		return userRepository.findById(userId).get()
+	fun findByUserId(userId : UUID): UserDto.BasicInfoOut {
+		val user = userRepository.findById(userId).get()
+		return UserDto.BasicInfoOut().apply {
+			this.name = user.name
+			this.email = user.email
+			this.social = user.social
+		}
+	}
+	
+	fun isExistEmail(userEmail: String): Boolean {
+		var result = userRepository.findByEmail(userEmail)
+		if (result.isPresent){
+			return true
+		}
+		return false
+	}
+	
+	fun findByUserEmail(userEmail: String): UserEntity {
+		return userRepository.findByEmail(userEmail).get()
 	}
 }
