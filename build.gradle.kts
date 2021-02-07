@@ -31,6 +31,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("io.jsonwebtoken:jjwt:0.9.0")
 	implementation("com.google.code.gson:gson:2.8.5")
+	// Utils
+	// 예외 발생 시 최초 방생한 조상 Exception을 식별하는 기능을 제공
+	implementation("org.apache.commons:commons-lang3:3.9")
 	
 	// https://spring.io/guides/tutorials/spring-boot-oauth2/
 	implementation("org.springframework.security:spring-security-oauth2-client")

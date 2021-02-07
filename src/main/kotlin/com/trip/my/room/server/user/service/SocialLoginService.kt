@@ -1,15 +1,18 @@
 package com.trip.my.room.server.user.service
 
-import com.trip.my.room.server.user.service.KakaoClientService
-import com.trip.my.room.server.user.dto.KakaoUser
+import com.trip.my.room.server.user.dto.UserDto
+import com.trip.my.room.server.user.enum.SocialType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.security.InvalidParameterException
 
 @Service
 class SocialLoginService(@Autowired private val kakaoClientService: KakaoClientService) {
 	
-	// 일단은 kakao만 사용
-	fun getKakaoUser(socialType: String, authorize_code: String): KakaoUser {
-		return kakaoClientService.getUser(authorize_code)!!
+	fun getSocialUser(socialType: String, authorize_code: String): UserDto.UserJoinIn {
+		if (SocialType.valueOf(socialType.toUpperCase()).equals(SocialType.KAKAO)) {
+			return kakaoClientService.getUser(authorize_code)!!
+		}
+		throw InvalidParameterException("유효하지 않은 socialType 입니다. : ${socialType}")
 	}
 }

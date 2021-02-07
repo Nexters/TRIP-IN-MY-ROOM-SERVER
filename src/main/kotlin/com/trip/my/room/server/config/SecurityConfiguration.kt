@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 	
+	// 참고 :  https://godekdls.github.io/Spring%20Security/kotlinconfiguration/#171-httpsecurity
 	override fun configure(http: HttpSecurity) {
 		
 		// 참고 : https://velog.io/@tlatldms/Spring-boot-Spring-security-JWT-Redis-mySQL-2%ED%8E%B8
@@ -32,16 +33,14 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 		
 		// 토큰 인증 필터 추가
 		http.addFilterBefore(getIfTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
-		
 	}
 	
 	override fun configure(web: WebSecurity) {
 		super.configure(web)
 		
 		web.ignoring()
-				.antMatchers("/users/login")
+				.antMatchers("/users/login/**")
 				.antMatchers("/users/page")
-				.antMatchers("/users/kakao/join")
 	}
 	
 	fun getIfTokenAuthenticationFilter(): IfTokenAuthenticationFilter {

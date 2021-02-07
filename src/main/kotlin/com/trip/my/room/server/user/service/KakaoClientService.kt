@@ -3,6 +3,7 @@ package com.trip.my.room.server.user.service
 import com.google.gson.Gson
 import com.trip.my.room.server.user.dto.KakaoUser
 import com.trip.my.room.server.config.MyConfigurationProperties
+import com.trip.my.room.server.user.dto.UserDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -18,8 +19,8 @@ import java.net.URI
 class KakaoClientService(@Autowired private val restTemplate: RestTemplate,
 						 @Autowired private val myConfigProps: MyConfigurationProperties) {
 	
-	// autorize_code -> access_token, refresh_token
-	fun getUser(authorize_code: String): KakaoUser? {
+	// authorize_code -> get access_token, refresh_token from kakao
+	fun getUser(authorize_code: String): UserDto.UserJoinIn {
 		var myMap = mapOf("Content-type" to listOf("application/x-www-form-urlencoded;charset=utf-8"))
 		var values : MultiValueMap<String, String> = CollectionUtils.toMultiValueMap(myMap)
 		val headers = HttpHeaders(values)
@@ -32,10 +33,32 @@ class KakaoClientService(@Autowired private val restTemplate: RestTemplate,
 		val url: URI = URI.create(myConfigProps.authBaseUrl+query)
 		val req = RequestEntity({}, headers, HttpMethod.POST, url)
 		val re = restTemplate.exchange(req, String::class.java)
-		return Gson().fromJson(re.body, KakaoUser::class.java)
+		val kUser = Gson().fromJson(re.body, KakaoUser::class.java)
+		return getUserExtraInfo(token_type= kUser.token_type , token = kUser.access_token)
 	}
 	
-	// Todo 유저의 이메일 정보 가져오기
-	fun getUserExtraInfo(){
+	fun getUserExtraInfo(token_type: String, token : String): UserDto.UserJoinIn {
+		var myMap = mapOf("Content-type" to listOf("application/x-www-form-urlencoded;charset=utf-8"),
+						"Authorization" to listOf("${token_type} ${token}"))
+		var values : MultiValueMap<String, String> = CollectionUtils.toMultiValueMap(myMap)
+		val headers = HttpHeaders(values)
+		
+		// https://developers.kakao.com/tool/rest-api/open/get/v2-user-me
+		val url: URI = URI.create(myConfigProps.apiBaseUrl + "/v2/user/me")
+		val req = RequestEntity({}, headers, HttpMethod.GET, url)
+		val re = restTemplate.exchange(req, Any::class.java)
+		var response = re.body as HashMap<String, Any>
+		var socialId = response.get("id").toString()
+		val kakaoAccount = response.get("kakao_account")
+		val properties = response.get("properties")
+		var email: String = (kakaoAccount as HashMap<String, Any>).get("email") as String
+		var nickname: String = (properties as HashMap<String, Any>).get("nickname") as String
+		
+		return UserDto.UserJoinIn().apply {
+			this.name = nickname
+			this.email = email
+			this.socialId = socialId
+			this.social = "kakao"
+		}
 	}
 }
