@@ -15,7 +15,7 @@ my:
 spring:
   profiles:
     active:
-      -
+      - dev
   application:
     name: trip-in-my-room
   jackson:
