@@ -56,6 +56,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("com.h2database:h2:1.4.200")
 	runtimeOnly("mysql:mysql-connector-java:8.0.23")
+
+	// Utils
+	implementation("commons-io:commons-io:2.8.0")
 }
 
 // kotlin에서는 클래스와 프로퍼티, 함수가 기본적으로 final이므로 상속이 가능하도록 자동 open 설정

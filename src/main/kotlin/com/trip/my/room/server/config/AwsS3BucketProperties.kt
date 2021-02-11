@@ -1,6 +1,6 @@
 package com.trip.my.room.server.config
 
-import com.trip.my.room.server.common.upload.UploadProperties
+import com.trip.my.room.server.common.upload.StorageProperties
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.*
@@ -12,14 +12,14 @@ data class AwsS3BucketProperties(
 
     @Value("\${amazon.s3.directoryPath}")
     var directoryPath: String = ""
-) : UploadProperties {
+) : StorageProperties {
 
     override fun getBasePath(): String {
         return directoryPath
     }
 
-    override fun getBasePathWithUserId(userId: UUID): String {
-        return "$directoryPath/$userId"
+    override fun getBasePathWithStoryId(storyId: UUID?): String {
+        return "$directoryPath/$storyId"
     }
 
 }

@@ -2,10 +2,10 @@ package com.trip.my.room.server.common.upload
 
 import java.util.*
 
-interface UploadProperties {
+interface StorageProperties {
 
     fun getBasePath(): String
 
-    fun getBasePathWithUserId(userId: UUID): String
+    fun getBasePathWithStoryId(storyId: UUID?): String
 
 }

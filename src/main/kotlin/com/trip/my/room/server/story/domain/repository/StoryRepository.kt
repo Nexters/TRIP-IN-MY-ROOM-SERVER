@@ -8,6 +8,6 @@ import java.util.*
 @Repository
 interface StoryRepository : JpaRepository<StoryEntity, UUID> {
 
-    fun findByUserId(userId: UUID)
+    fun findByUserId(userId: UUID): List<StoryEntity>
 
 }
