@@ -1,16 +1,15 @@
 package com.trip.my.room.server.story.controller
 
-import com.trip.my.room.server.common.enum.PictureOrder
-import com.trip.my.room.server.picture.controller.PictureResponseDto
 import com.trip.my.room.server.story.controller.dto.StoryCreateRequestDto
 import com.trip.my.room.server.story.controller.dto.StoryPatchRequestDto
 import com.trip.my.room.server.story.controller.dto.StoryResponseDto
 import com.trip.my.room.server.story.service.StoryService
+import com.trip.my.room.server.user.IfUserPrincipal
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
-import java.time.Instant
 import java.time.LocalDateTime
 import java.util.*
 
@@ -19,29 +18,9 @@ import java.util.*
 class StoryController(private val storyService: StoryService) {
 
     @GetMapping
-    fun getAllStories(): List<StoryResponseDto> {
-        // TODO: Get userId from login information (session or token)
-//        storyService.getAllStoriesByUserId(UUID.randomUUID())
-
-        val pictureResponseDto = PictureResponseDto(
-            UUID.randomUUID(),
-            PictureOrder.ONE.getValue(),
-            "https://hello.world/temp.jpg",
-            "temp.jpg",
-            UUID.randomUUID()
-        )
-
-        return listOf(
-            StoryResponseDto(
-                UUID.randomUUID(),
-                Instant.now(),
-                "memo",
-                Instant.now(),
-                Instant.now(),
-                "우리집",
-                listOf(pictureResponseDto)
-            )
-        )
+    fun getAllStories(@AuthenticationPrincipal principal: IfUserPrincipal): List<StoryResponseDto> {
+        val userId = principal.getUserUUID()
+        return storyService.getAllStoriesByUserId(userId)
     }
 
     @GetMapping("/{id}")

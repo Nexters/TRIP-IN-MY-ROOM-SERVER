@@ -1,8 +1,8 @@
 package com.trip.my.room.server.picture
 
 import com.trip.my.room.server.common.enum.PictureOrder
-import com.trip.my.room.server.common.upload.PictureStorageClient
-import com.trip.my.room.server.common.upload.StorageProperties
+import com.trip.my.room.server.common.storage.PictureStorageClient
+import com.trip.my.room.server.common.storage.StorageProperties
 import org.apache.commons.io.FilenameUtils
 import org.springframework.stereotype.Repository
 import org.springframework.web.multipart.MultipartFile

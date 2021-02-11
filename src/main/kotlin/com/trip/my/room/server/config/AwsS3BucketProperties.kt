@@ -1,6 +1,6 @@
 package com.trip.my.room.server.config
 
-import com.trip.my.room.server.common.upload.StorageProperties
+import com.trip.my.room.server.common.storage.StorageProperties
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.*

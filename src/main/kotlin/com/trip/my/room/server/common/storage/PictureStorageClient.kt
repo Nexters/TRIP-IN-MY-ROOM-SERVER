@@ -1,4 +1,4 @@
-package com.trip.my.room.server.common.upload
+package com.trip.my.room.server.common.storage
 
 import java.io.File
 import java.net.URL

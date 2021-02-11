@@ -1,4 +1,4 @@
-package com.trip.my.room.server.common.upload
+package com.trip.my.room.server.common.storage
 
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.model.CannedAccessControlList

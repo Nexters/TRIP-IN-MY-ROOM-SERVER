@@ -40,7 +40,6 @@ class StoryService(
     }
 
     fun getStoriesById(storyId: UUID): StoryResponseDto {
-        // TODO: Set-up exception advice about NoSuchElement
         val foundStoryEntity = storyRepository.findById(storyId).orElseThrow()
         val foundPictureResponseDto = pictureService.getPictureListByStoryId(storyId)
 
