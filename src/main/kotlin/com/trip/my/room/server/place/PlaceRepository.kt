@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface PlaceRepository : JpaRepository<PlaceEntity, UUID>
+interface PlaceRepository : JpaRepository<PlaceEntity, UUID>, PlaceRepositoryCustom {
+
+}

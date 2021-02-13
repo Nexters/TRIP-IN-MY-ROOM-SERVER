@@ -5,4 +5,4 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface CountryRepository : JpaRepository<CountryEntity, UUID>
+interface CountryRepository : JpaRepository<CountryEntity, UUID>, CountryRepositoryCustom

@@ -1,6 +1,7 @@
 package com.trip.my.room.server.place
 
 import com.trip.my.room.server.country.CountryEntity
+import com.trip.my.room.server.user.UserEntity
 import java.util.*
 import javax.persistence.*
 
@@ -14,10 +15,20 @@ class PlaceEntity {
 	var name: String ?= null
 	
 	@field:ManyToOne(fetch = FetchType.LAZY)
-	@field:JoinColumn(name="country_id")
+	@field:JoinColumn(name="country_id", nullable = true)
 	var country : CountryEntity ?= null
 	
-	// Rel 데이터가 사라지더라도 Place는 삭제되면 안됨
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "place")
-	var relList: MutableList<RelUserPlaceEntity> ?= mutableListOf()
+	// true -> user가 반드시 있어야 함
+	var customized : Boolean ?= false
+	
+	@field: OneToOne
+	@field: JoinColumn(name="user_id", nullable = true)
+	var user : UserEntity ?= null
+	
+	// @Lob annotation specifies that the database should store the property as Large Object
+	// columnDefinition in the @Column annotation defines the column type for the property.
+	@Lob
+	@Column(name = "imageIcon", columnDefinition = "BLOB")
+	var imageIcon : ByteArray ?= null
+	
 }
