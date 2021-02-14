@@ -1,7 +1,6 @@
 package com.trip.my.room.server.story.domain.model
 
 import com.trip.my.room.server.common.entity.TimeEntity
-import com.trip.my.room.server.place.RelUserPlaceEntity
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.Instant
 import java.util.*
@@ -20,9 +19,9 @@ class StoryEntity(
     @field:GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID? = null
 
-    @field: ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rel_user_place_id")
-    var userPlace: RelUserPlaceEntity? = null
+//    @field: ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "rel_user_place_id")
+//    var userPlace: RelUserPlaceEntity? = null
 
     var title: String? = title
 

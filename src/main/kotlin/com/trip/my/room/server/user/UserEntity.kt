@@ -1,10 +1,8 @@
 package com.trip.my.room.server.user
 
-import com.trip.my.room.server.place.RelUserPlaceEntity
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
-import org.jetbrains.annotations.NotNull
 import java.util.*
 import javax.persistence.*
 
@@ -17,20 +15,19 @@ class UserEntity {
 	@field: Column(columnDefinition = "BINARY(16)")
 	var id: UUID ?= null
 	
-	
+	@field:Column(nullable = true)
 	var email: String ?= null
 	
 	var name: String ?= null
 	
 	// Redis에 저장하면 좋을 듯
+	@field:Column(nullable = true)
 	var refreshToken: String ?= null
 	
+	@field:Column(nullable = true)
 	var social: String ?= null
 	
+	@field:Column(nullable = true)
 	var socialId: String ?= null
 	
-	// User 삭제시 rel 테이블의 값도 자동 삭제
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	var relList: MutableList<RelUserPlaceEntity> ?= mutableListOf()
 }
