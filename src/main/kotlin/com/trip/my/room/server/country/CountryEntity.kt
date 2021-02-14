@@ -15,6 +15,9 @@ class CountryEntity {
 	
 	var name: String? = null
 	
+	// S3 URL
+	var countryIcon : String ?= null
+	
 	@field:OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
 	@field:OnDelete(action = OnDeleteAction.CASCADE)
 	var myPlaceList: MutableList<PlaceEntity>? = mutableListOf()
