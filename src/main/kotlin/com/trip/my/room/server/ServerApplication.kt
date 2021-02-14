@@ -20,58 +20,52 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 @SpringBootApplication
 @EnableConfigurationProperties(MyConfigurationProperties::class)
 class ServerApplication {
-	
-	
-	@Autowired
-	private val userRepository: UserRepository? = null
-	
-	@Autowired
-	private val countryRepository: CountryRepository? = null
-	
-	@Autowired
-	private val placeRepository : PlaceRepository? = null
-	
-	
-	@Autowired
-	private val userService: UserService? = null
-	
-	
-	@EventListener(ApplicationReadyEvent::class)
-	fun afterStartUp() {
-		// dummy Value
-		var newUser = UserEntity().apply {
-			this.name = "test"
-		}
-		userRepository!!.save(newUser)
-		
-		// 10개 정도의 나라를 생성
-		for (idx in 1..11){
-			var newCountry = CountryEntity().apply {
-				this.name = "country${idx}"
-			}
-			countryRepository!!.save(newCountry)
-			
-			var newPlace = PlaceEntity().apply {
-				this.country = newCountry
-				this.name = "place${idx}"
-				this.country = newCountry
-			}
-			
-			if (idx % 3 == 0){
-				newPlace.user = newUser
-				newPlace.customized = true
-			}
-			placeRepository!!.save(newPlace)
-		}
-	}
-	
-	companion object {
-		@JvmStatic
-		fun main(args: Array<String>) {
-//			System.setProperty("spring.devtools.restart.enabled", "false");
-			runApplication<ServerApplication>(*args)
-		}
-	}
+
+    @Autowired
+    private val userRepository: UserRepository? = null
+
+    @Autowired
+    private val countryRepository: CountryRepository? = null
+
+    @Autowired
+    private val placeRepository: PlaceRepository? = null
+
+    @Autowired
+    private val userService: UserService? = null
+
+//    @EventListener(ApplicationReadyEvent::class)
+//    fun afterStartUp() {
+//        // dummy Value
+//        var newUser = UserEntity().apply {
+//            this.name = "test"
+//        }
+//        userRepository!!.save(newUser)
+//
+//        // 10개 정도의 나라를 생성
+//        for (idx in 1..11) {
+//            var newCountry = CountryEntity().apply {
+//                this.name = "country${idx}"
+//            }
+//            countryRepository!!.save(newCountry)
+//
+//            var newPlace = PlaceEntity().apply {
+//                this.country = newCountry
+//                this.name = "place${idx}"
+//                this.country = newCountry
+//            }
+//
+//            if (idx % 3 == 0) {
+//                newPlace.user = newUser
+//                newPlace.customized = true
+//            }
+//            placeRepository!!.save(newPlace)
+//        }
+//    }
+
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            runApplication<ServerApplication>(*args)
+        }
+    }
 }
-
-

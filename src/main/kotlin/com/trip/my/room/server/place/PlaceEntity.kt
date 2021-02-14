@@ -1,34 +1,24 @@
 package com.trip.my.room.server.place
 
-import com.trip.my.room.server.country.CountryEntity
-import com.trip.my.room.server.user.UserEntity
 import java.util.*
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
 
 @Entity(name = "place")
 class PlaceEntity {
-	
-	@field: Id
-	@field: GeneratedValue(strategy = GenerationType.AUTO)
-	var id : UUID ?= null
-	
-	var name: String ?= null
-	
-	@field:ManyToOne(fetch = FetchType.LAZY)
-	@field:JoinColumn(name="country_id", nullable = true)
-	var country : CountryEntity ?= null
-	
-	// 위도
-	var latitude : String ?= null
-	
-	// 경도
-	var longtitude : String ?= null
-	
-	// true -> user가 반드시 있어야 함
-	var customized : Boolean ?= false
-	
-	@field: OneToOne
-	@field: JoinColumn(name="user_id", nullable = true)
-	var user : UserEntity ?= null
-	
+
+    @field: Id
+    @field: GeneratedValue(strategy = GenerationType.AUTO)
+    var id: UUID? = null
+
+    var name: String? = null
+
+    // 위도
+    var latitude: String? = null
+
+    // 경도
+    var longtitude: String? = null
+
 }
