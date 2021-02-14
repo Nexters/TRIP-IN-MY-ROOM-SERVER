@@ -16,6 +16,8 @@ spring:
   profiles:
     active:
       - dev
+    include:
+      - credentials
   application:
     name: trip-in-my-room
   jackson:
@@ -29,3 +31,24 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: -1
+      max-file-size: -1
+
+amazon:
+  s3:
+    directoryPath: storyPictures
+
+cloud:
+  aws:
+    s3:
+      bucket: tripinmyroom
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      instanceProfile: false

@@ -32,19 +32,17 @@ dependencies {
 	// Utils
 	// 예외 발생 시 최초 방생한 조상 Exception을 식별하는 기능을 제공
 	implementation("org.apache.commons:commons-lang3:3.9")
-//	implementation("io.springfox:springfox-bean-validators:2.9.2")
-	
+
 	// https://spring.io/guides/tutorials/spring-boot-oauth2/
 	implementation("org.springframework.security:spring-security-oauth2-client")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
-	
+
 	// QueryDsl (:jpa - JPAAnnotationProcessor settings)
 	implementation("com.querydsl:querydsl-jpa:4.3.1")
-//	implementation("org.hibernate.validator:hibernate-validator:7.0.1.Final")
 	kapt("com.querydsl:querydsl-apt:4.3.1:jpa")
-	
-	
+
+	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.5.RELEASE")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -58,6 +56,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("com.h2database:h2:1.4.200")
 	runtimeOnly("mysql:mysql-connector-java:8.0.23")
+
+	// Utils
+	implementation("commons-io:commons-io:2.8.0")
 }
 
 // kotlin에서는 클래스와 프로퍼티, 함수가 기본적으로 final이므로 상속이 가능하도록 자동 open 설정
