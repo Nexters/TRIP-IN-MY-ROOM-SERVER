@@ -19,10 +19,6 @@ class StoryEntity(
     @field:GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID? = null
 
-//    @field: ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "rel_user_place_id")
-//    var userPlace: RelUserPlaceEntity? = null
-
     var title: String? = title
 
     var date: Instant? = date

@@ -29,6 +29,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 		// 다음 리퀘스트에 대한 사용 권한 체크
 		http.authorizeRequests()
 //				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+				.antMatchers("/h2-console/**").permitAll()
 				.antMatchers("/users/**").authenticated()
 				.antMatchers("/users/token/refresh/**").permitAll()
 		
@@ -42,6 +43,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 		web.ignoring()
 				.antMatchers("/users/login/**")
 				.antMatchers("/users/page")
+				.antMatchers("/h2-console/**")
 	}
 	
 	fun getIfTokenAuthenticationFilter(): IfTokenAuthenticationFilter {

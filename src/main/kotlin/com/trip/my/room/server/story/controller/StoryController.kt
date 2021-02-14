@@ -31,6 +31,8 @@ class StoryController(private val storyService: StoryService) {
     @PostMapping
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     fun createNewStory(
+        @AuthenticationPrincipal principal: IfUserPrincipal,
+
         @RequestParam("title") title: String,
 
         @RequestParam("date")
@@ -41,10 +43,10 @@ class StoryController(private val storyService: StoryService) {
         @RequestParam("experiencePlace") experiencePlace: String,
         @RequestParam("pictures") multipartFiles: List<MultipartFile>,
     ) {
+        val userId = principal.getUserUUID()
         val storyCreateRequestDto = StoryCreateRequestDto(title, date, memo, experiencePlace)
 
-        // TODO: Get userId and insert
-        storyService.createNewStory(UUID.randomUUID(), multipartFiles, storyCreateRequestDto)
+        storyService.createNewStory(userId, multipartFiles, storyCreateRequestDto)
     }
 
     @PatchMapping("/{id}")

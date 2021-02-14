@@ -66,7 +66,7 @@ class StoryService(
         val storyId = savedStoryEntity.id
         println("storyId: $storyId")
 
-        // TODO: Implement and mix user_place_relation logic
+        // TODO: place 관련해서 업데이트
 
         pictureService.createNewPicture(savedStoryEntity, multipartFiles)
     }
