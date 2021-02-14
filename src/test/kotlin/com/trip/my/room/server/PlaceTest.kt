@@ -67,7 +67,7 @@ class PlaceTest(@Autowired private val placeRepository: PlaceRepository,
 	@Test
 	fun searchPlace(){
 		val placeStr = "place1"
-		val placeResult = placeRepository.searchPlaceByPlaceName(placeStr)
+		val placeResult = placeRepository.findByPlaceName(placeStr)
 		val result = placeMapper.toDtoList(placeResult!!)
 		println(result)
 	}
