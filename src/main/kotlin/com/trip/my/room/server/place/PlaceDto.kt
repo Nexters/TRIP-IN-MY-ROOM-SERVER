@@ -1,7 +1,6 @@
 package com.trip.my.room.server.place
 
 import java.util.*
-import javax.validation.constraints.Null
 
 class PlaceDto {
 	
@@ -17,11 +16,8 @@ class PlaceDto {
 	open class PlaceOut {
 		var id: UUID ?= null
 		var name : String ?= null
-		@Null
 		var countryId : UUID ?= null
-		@Null
 		var customized : Boolean ?= null
-		@Null
 		var imageIcon : ByteArray ?= null
 	}
 	
