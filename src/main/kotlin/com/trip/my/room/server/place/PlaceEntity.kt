@@ -18,6 +18,12 @@ class PlaceEntity {
 	@field:JoinColumn(name="country_id", nullable = true)
 	var country : CountryEntity ?= null
 	
+	// 위도
+	var latitude : String ?= null
+	
+	// 경도
+	var longtitude : String ?= null
+	
 	// true -> user가 반드시 있어야 함
 	var customized : Boolean ?= false
 	
