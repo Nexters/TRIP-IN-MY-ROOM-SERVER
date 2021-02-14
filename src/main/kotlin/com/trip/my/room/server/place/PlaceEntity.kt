@@ -25,10 +25,4 @@ class PlaceEntity {
 	@field: JoinColumn(name="user_id", nullable = true)
 	var user : UserEntity ?= null
 	
-	// @Lob annotation specifies that the database should store the property as Large Object
-	// columnDefinition in the @Column annotation defines the column type for the property.
-	@Lob
-	@Column(name = "imageIcon", columnDefinition = "BLOB")
-	var imageIcon : ByteArray ?= null
-	
 }
