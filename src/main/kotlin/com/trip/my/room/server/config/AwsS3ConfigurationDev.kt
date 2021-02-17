@@ -15,14 +15,11 @@ import org.springframework.context.annotation.Profile
 class AwsS3ConfigurationDev(private val awsS3Properties: AwsS3Properties) : AwsS3Configuration {
 
     @Bean
-    fun awsCredentials(): AWSCredentials {
-        return BasicAWSCredentials(awsS3Properties.accessKey, awsS3Properties.secretKey)
-    }
+    override fun amazonS3(): AmazonS3 {
+        val basicAWSCredentials = BasicAWSCredentials(awsS3Properties.accessKey, awsS3Properties.secretKey)
 
-    @Bean
-    override fun amazonS3(awsCredentials: AWSCredentials): AmazonS3 {
         return AmazonS3ClientBuilder.standard()
-            .withCredentials(AWSStaticCredentialsProvider(awsCredentials))
+            .withCredentials(AWSStaticCredentialsProvider(basicAWSCredentials))
             .withRegion(Regions.fromName(awsS3Properties.region))
             .build()
     }

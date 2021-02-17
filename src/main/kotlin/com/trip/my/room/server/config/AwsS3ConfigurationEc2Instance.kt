@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile
 class AwsS3ConfigurationEc2Instance(private val awsS3Properties: AwsS3Properties) : AwsS3Configuration {
 
     @Bean
-    override fun amazonS3(awsCredentials: AWSCredentials): AmazonS3 {
+    override fun amazonS3(): AmazonS3 {
         val instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider(true)
 
         return AmazonS3ClientBuilder.standard()
