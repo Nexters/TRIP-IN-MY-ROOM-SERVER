@@ -7,6 +7,6 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 interface AwsS3Configuration {
 
-    fun amazonS3(awsCredentials: AWSCredentials): AmazonS3
+    fun amazonS3(): AmazonS3
 
 }
