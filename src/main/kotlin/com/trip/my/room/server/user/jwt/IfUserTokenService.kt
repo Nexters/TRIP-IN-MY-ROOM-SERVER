@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest
 class IfUserTokenService {
 	
 	// 토큰의 서명을 위한 값
-	var ifSignKey : String = "IfIfIf";
+	var ifSignKey: String = "IfIfIf";
 	
 	// https://do-study.tistory.com/106
 	fun parseTokenString(request: HttpServletRequest): String? {
@@ -33,15 +33,15 @@ class IfUserTokenService {
 	fun createToken(userEntity: UserEntity, expSec: Long = 300): MutableMap<String, Any> {
 		
 		// Headers
-		var headers : MutableMap<String, Any> = mutableMapOf();
+		var headers: MutableMap<String, Any> = mutableMapOf();
 		headers.put("typ", "jwt")
 		headers.put("alg", "HS256")
 		
 		// Payloads
-		var payloads : MutableMap<String, Any> = mutableMapOf()
+		var payloads: MutableMap<String, Any> = mutableMapOf()
 		var addExpSec: Long = expSec
 		var iat = LocalDateTime.now()
-		var expriedDateTime : Long = iat.plusSeconds(addExpSec).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+		var expriedDateTime: Long = iat.plusSeconds(addExpSec).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 		
 		payloads.put("aud", "user") // 토큰 대상자
 		payloads.put("sub", "NextersIf") // 토큰 제목
@@ -57,24 +57,25 @@ class IfUserTokenService {
 				.signWith(SignatureAlgorithm.HS256, ifSignKey.toByteArray())
 				.compact()
 		
-		var refreshToken : String = createRefreshToken(userEntity)
+		var refreshToken: String = createRefreshToken(userEntity)
 		
 		return mutableMapOf<String, Any>("tokenType" to "Bearer",
-											"access_token" to accessToken,
-											"refresh_token" to refreshToken,
-											"exp" to expriedDateTime)
+				"access_token" to accessToken,
+				"refresh_token" to refreshToken,
+				"exp" to expriedDateTime)
 	}
-	fun createRefreshToken(userEntity : UserEntity, refreshExpirationDateInMinutes: Long = 1440*3): String {
+	
+	fun createRefreshToken(userEntity: UserEntity, refreshExpirationDateInMinutes: Long = 1440 * 3): String {
 		// Headers
-		var headers : MutableMap<String, Any> = mutableMapOf();
+		var headers: MutableMap<String, Any> = mutableMapOf();
 		headers.put("typ", "jwt")
 		headers.put("alg", "HS256")
 		
 		// Payloads
-		var payloads : MutableMap<String, Any> = mutableMapOf()
+		var payloads: MutableMap<String, Any> = mutableMapOf()
 		var addExpMinutes: Long = refreshExpirationDateInMinutes // 3days(1440(1day) * 3)
 		var iat = LocalDateTime.now()
-		var expriedDateTime : Long = iat.plusMinutes(addExpMinutes).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+		var expriedDateTime: Long = iat.plusMinutes(addExpMinutes).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 		
 		payloads.put("aud", "user") // 토큰 대상자
 		payloads.put("sub", "NextersIf") // 토큰 제목
@@ -101,24 +102,24 @@ class IfUserTokenService {
 	
 	fun verifyToken(token: String?): Boolean {
 		try {
-			var claims : Claims = Jwts.parser()
+			var claims: Claims = Jwts.parser()
 					.setSigningKey(ifSignKey.toByteArray())
 					.parseClaimsJws(token)
 					.body
-		
-			var expiredTime : Long = claims.get("exp") as Long
-			val currentTime : Long = Instant.now().toEpochMilli()
-			if (currentTime < expiredTime){
+			
+			var expiredTime: Long = claims.get("exp") as Long
+			val currentTime: Long = Instant.now().toEpochMilli()
+			if (currentTime < expiredTime) {
 				return true
 			}
-		} catch (e : Exception){
+		} catch (e: Exception) {
 			return false
 		}
 		return false
 	}
 	
-	fun reNewAccessToken(userEntity: UserEntity, refreshToken: String, expSec:Long = 300): MutableMap<String, Any> {
-		val isAvailable : Boolean =  verifyToken(refreshToken)
+	fun reNewAccessToken(userEntity: UserEntity, refreshToken: String, expSec: Long = 300): MutableMap<String, Any> {
+		val isAvailable: Boolean = verifyToken(refreshToken)
 		if (isAvailable) {
 			var userId = getUserIdFromToken(refreshToken)
 			if (userEntity.id != userId) {
@@ -129,8 +130,8 @@ class IfUserTokenService {
 			return createToken(userEntity, expSec) // expSec = 300 , 5minutes
 		}
 		throw IfException(errorCode = IfErrorCode.EXPIRED_REFRESH_TOKEN,
-						errorMessage = "리프레시 토큰이 만료되어 엑세스 토큰을 갱신하지 못하였습니다.",
-						httpStatus = HttpStatus.BAD_REQUEST)
+				errorMessage = "리프레시 토큰이 만료되어 엑세스 토큰을 갱신하지 못하였습니다.",
+				httpStatus = HttpStatus.BAD_REQUEST)
 	}
 	
 	fun createAuthentication(token: String, userId: UUID, authenticated: Boolean = true): IfAuthenticationToken {

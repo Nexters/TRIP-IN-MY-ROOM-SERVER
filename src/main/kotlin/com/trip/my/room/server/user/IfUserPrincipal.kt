@@ -10,7 +10,7 @@ class IfUserPrincipal : UserDetails {
 	// 저장한 유저 정보를 SecurityContextHolder로 조회
 	private var userId: UUID
 	
-	constructor(userId: UUID){
+	constructor(userId: UUID) {
 		this.userId = userId
 	}
 	

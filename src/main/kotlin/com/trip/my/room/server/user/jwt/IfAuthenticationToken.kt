@@ -9,13 +9,13 @@ class IfAuthenticationToken : AbstractAuthenticationToken {
 	private var principal: IfUserPrincipal
 	private var credentials: Any
 	
-	constructor(principal: IfUserPrincipal, token: String) : super(null)  {
+	constructor(principal: IfUserPrincipal, token: String) : super(null) {
 		this.principal = principal
 		this.credentials = token
 		this.isAuthenticated = true
 	}
 	
-	constructor(principal: IfUserPrincipal, token: String, authenticated: Boolean) : super(null)  {
+	constructor(principal: IfUserPrincipal, token: String, authenticated: Boolean) : super(null) {
 		this.principal = principal
 		this.credentials = token
 		this.isAuthenticated = authenticated
