@@ -28,47 +28,47 @@ class PlaceTest(@Autowired private val placeRepository: PlaceRepository,
 	
 	lateinit var userId: UUID
 	
-	@BeforeAll
-	fun beforeAll(){
-		var newUser = UserEntity().apply {
-			this.name = "testUser"
-		}
-		userRepository.save(newUser)
-		userId = newUser.id!!
-		
-		// 10개 정도의 나라를 생성
-		for (idx in 1..11){
-			var newCountry = CountryEntity().apply {
-				this.name = "Testcountry${idx}"
-			}
-			countryRepository.save(newCountry)
-			
-			var newPlace = PlaceEntity().apply {
-				this.country = newCountry
-				this.name = "Testplace${idx}"
-				this.country = newCountry
-			}
-			
-			if (idx % 3 == 0){
-				newPlace.user = newUser
-				newPlace.customized = true
-			}
-			placeRepository.save(newPlace)
-		}
-	}
-	
-	@Test
-	fun getAllPlaces(){
-		var placeResult = placeRepository.findAllByUserId(userId)
-		val result = placeMapper.toDtoList(placeResult!!)
-		println(result)
-	}
-	
-	@Test
-	fun searchPlace(){
-		val placeStr = "place1"
-		val placeResult = placeRepository.findByPlaceName(placeStr)
-		val result = placeMapper.toDtoList(placeResult!!)
-		println(result)
-	}
+//	@BeforeAll
+//	fun beforeAll(){
+//		var newUser = UserEntity().apply {
+//			this.name = "testUser"
+//		}
+//		userRepository.save(newUser)
+//		userId = newUser.id!!
+//
+//		// 10개 정도의 나라를 생성
+//		for (idx in 1..11){
+//			var newCountry = CountryEntity().apply {
+//				this.name = "Testcountry${idx}"
+//			}
+//			countryRepository.save(newCountry)
+//
+//			var newPlace = PlaceEntity().apply {
+//				this.country = newCountry
+//				this.name = "Testplace${idx}"
+//				this.country = newCountry
+//			}
+//
+//			if (idx % 3 == 0){
+//				newPlace.user = newUser
+//				newPlace.customized = true
+//			}
+//			placeRepository.save(newPlace)
+//		}
+//	}
+//
+//	@Test
+//	fun getAllPlaces(){
+//		var placeResult = placeRepository.findAllByUserId(userId)
+//		val result = placeMapper.toDtoList(placeResult!!)
+//		println(result)
+//	}
+//
+//	@Test
+//	fun searchPlace(){
+//		val placeStr = "place1"
+//		val placeResult = placeRepository.findByPlaceName(placeStr)
+//		val result = placeMapper.toDtoList(placeResult!!)
+//		println(result)
+//	}
 }
