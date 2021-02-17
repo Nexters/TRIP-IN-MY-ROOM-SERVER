@@ -73,5 +73,4 @@ class PlaceTest(
 //		println(result)
 //	}
 
-
 }
