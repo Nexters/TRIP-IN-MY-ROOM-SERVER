@@ -20,14 +20,15 @@ import java.util.*
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("daim")
-class PlaceTest(@Autowired private val placeRepository: PlaceRepository,
-				@Autowired private val userRepository: UserRepository,
-				@Autowired private val countryRepository: CountryRepository,
-				@Autowired private val placeMapper: PlaceMapper
+class PlaceTest(
+    @Autowired private val placeRepository: PlaceRepository,
+    @Autowired private val userRepository: UserRepository,
+    @Autowired private val countryRepository: CountryRepository,
+    @Autowired private val placeMapper: PlaceMapper
 ) {
-	
+
 	lateinit var userId: UUID
-	
+
 //	@BeforeAll
 //	fun beforeAll(){
 //		var newUser = UserEntity().apply {
@@ -71,4 +72,5 @@ class PlaceTest(@Autowired private val placeRepository: PlaceRepository,
 //		val result = placeMapper.toDtoList(placeResult!!)
 //		println(result)
 //	}
+
 }
