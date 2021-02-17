@@ -12,8 +12,7 @@ class PlaceMapper {
 		return PlaceDto.PlaceOut().apply {
 			this.id = placeEntity.id
 			this.name = placeEntity.name
-			this.countryId =  if (placeEntity.country != null) placeEntity.country!!.id else null
-			this.imageIcon = placeEntity.imageIcon
+			this.countryId = if (placeEntity.country != null) placeEntity.country!!.id else null
 		}
 	}
 	

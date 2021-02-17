@@ -16,7 +16,9 @@ class CountryEntity {
 	var name: String? = null
 	
 	// S3 URL
-	var countryIcon : String ?= null
+	var countryIcon: String? = null
+	
+	var customized: Boolean? = null
 	
 	@field:OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
 	@field:OnDelete(action = OnDeleteAction.CASCADE)

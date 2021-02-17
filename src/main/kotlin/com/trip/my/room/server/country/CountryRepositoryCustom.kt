@@ -4,5 +4,7 @@ import java.util.*
 
 interface CountryRepositoryCustom {
 	
-	fun finCountryById(countryId : UUID): CountryEntity?
+	fun finCountryById(countryId: UUID): CountryEntity?
+	
+	fun findCustomCountry(): CountryEntity
 }

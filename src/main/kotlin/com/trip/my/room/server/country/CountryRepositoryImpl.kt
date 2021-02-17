@@ -5,11 +5,18 @@ import com.trip.my.room.server.country.QCountryEntity.countryEntity
 import org.springframework.beans.factory.annotation.Autowired
 import java.util.*
 
-class CountryRepositoryImpl(@Autowired private val query: JPAQueryFactory): CountryRepositoryCustom {
+class CountryRepositoryImpl(@Autowired private val query: JPAQueryFactory) : CountryRepositoryCustom {
 	
 	override fun finCountryById(countryId: UUID): CountryEntity? {
 		return query.selectFrom(countryEntity)
 				.where(countryEntity.id.eq(countryId))
 				.fetchOne()
+	}
+	
+	override fun findCustomCountry(): CountryEntity {
+		return query.selectFrom(QCountryEntity.countryEntity)
+				.where(QCountryEntity.countryEntity.customized.eq(true))
+				.fetchOne()!!
+		
 	}
 }
