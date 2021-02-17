@@ -15,6 +15,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.context.event.EventListener
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
+import kotlin.random.Random
 
 @EnableJpaAuditing
 @SpringBootApplication
@@ -30,35 +31,33 @@ class ServerApplication {
     @Autowired
     private val placeRepository: PlaceRepository? = null
 
-    @Autowired
-    private val userService: UserService? = null
-
 //    @EventListener(ApplicationReadyEvent::class)
 //    fun afterStartUp() {
 //        // dummy Value
 //        var newUser = UserEntity().apply {
 //            this.name = "test"
 //        }
-//        userRepository!!.save(newUser)
+//        val userEntity = userRepository!!.save(newUser)
+//        println("user=$userEntity")
 //
+//        val listOfPairCountryAndName = listOf(Pair("KOREA", "한국"), Pair("OTHER", "기타"))
 //        // 10개 정도의 나라를 생성
-//        for (idx in 1..11) {
+//        for (idx in 0..1) {
 //            var newCountry = CountryEntity().apply {
-//                this.name = "country${idx}"
+//                this.type = listOfPairCountryAndName[idx].first
+//                this.name = listOfPairCountryAndName[idx].second
 //            }
-//            countryRepository!!.save(newCountry)
+//            val countryEntity = countryRepository!!.save(newCountry)
+//            println("countryId=${countryEntity.id}")
 //
 //            var newPlace = PlaceEntity().apply {
-//                this.country = newCountry
 //                this.name = "place${idx}"
-//                this.country = newCountry
+//                this.longitude = Random(idx).nextDouble()
+//                this.latitude = Random(idx).nextDouble()
 //            }
 //
-//            if (idx % 3 == 0) {
-//                newPlace.user = newUser
-//                newPlace.customized = true
-//            }
-//            placeRepository!!.save(newPlace)
+//            val placeEntity = placeRepository!!.save(newPlace)
+//            println("placeId=$placeEntity.id")
 //        }
 //    }
 
