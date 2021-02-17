@@ -45,6 +45,7 @@ class StoryService(
         return StoryDetailResponseDto(
             foundStoryEntity.id,
             foundStoryEntity.date,
+            foundStoryEntity.title,
             foundStoryEntity.memo,
             foundStoryEntity.createdAt,
             foundStoryEntity.updatedAt,

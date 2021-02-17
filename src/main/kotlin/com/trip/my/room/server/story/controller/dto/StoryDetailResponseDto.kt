@@ -9,6 +9,7 @@ import java.util.*
 data class StoryDetailResponseDto(
     val id: UUID?,
     val date: Instant?,
+    val title: String?,
     val memo: String?,
     val createdAt: Instant?,
     var updatedAt: Instant?,
