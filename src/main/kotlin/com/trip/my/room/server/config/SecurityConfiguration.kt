@@ -30,6 +30,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 		http.authorizeRequests()
 //				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 				.antMatchers("/h2-console/**").permitAll()
+				.antMatchers("/countries/**").authenticated()
 				.antMatchers("/users/**").authenticated()
 				.antMatchers("/users/token/refresh/**").permitAll()
 		
