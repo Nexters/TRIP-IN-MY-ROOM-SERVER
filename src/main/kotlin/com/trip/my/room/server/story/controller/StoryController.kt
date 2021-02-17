@@ -88,9 +88,10 @@ class StoryController(private val storyService: StoryService) {
         @RequestParam("countryId") countryId: UUID?,
         @RequestParam("newCountryName") newCountryName: String?,
 
-        @RequestParam("placeName") placeName: String,
-        @RequestParam("placeLatitude") placeLatitude: Double,
-        @RequestParam("placeLongitude") placeLongitude: Double,
+        @RequestParam("placeId") placeId: UUID?,
+        @RequestParam("placeName") placeName: String?,
+        @RequestParam("placeLatitude") placeLatitude: Double?,
+        @RequestParam("placeLongitude") placeLongitude: Double?,
     ) {
         val userId = principal.getUserUUID()
         val storyPatchRequestDto = StoryPatchRequestDto(title, date, memo)
@@ -108,6 +109,7 @@ class StoryController(private val storyService: StoryService) {
             storyPatchRequestDto,
             countryId,
             newCountryName,
+            placeId,
             placeResponseDto
         )
     }
