@@ -6,5 +6,4 @@ data class StoryPatchRequestDto(
     val title: String,
     val date: LocalDateTime,
     val memo: String,
-    val experiencePlace: String
 ) {}

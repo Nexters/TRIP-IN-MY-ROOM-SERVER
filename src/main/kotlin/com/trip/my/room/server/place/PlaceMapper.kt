@@ -12,7 +12,7 @@ class PlaceMapper {
             this.id = placeEntity.id
             this.name = placeEntity.name
 			this.latitude = placeEntity.latitude
-			this.longtitude = placeEntity.longtitude
+			this.longtitude = placeEntity.longitude
         }
     }
 

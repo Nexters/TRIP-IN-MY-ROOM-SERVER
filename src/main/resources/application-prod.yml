@@ -9,7 +9,20 @@ spring:
     username: ${RDS_USERNAME}
     password: ${RDS_PASSWORD}
 
+amazon:
+  s3:
+    directoryPath: prod/storyPictures
+
 cloud:
   aws:
     credentials:
       instanceProfile: true
+
+my:
+  propereties:
+    kakao:
+      clientId: ${CLIENT_ID}
+      authBaseUrl: ${AUTH_BASE_URL}
+      apiBaseUrl: ${API_BASE_URL}
+      redirectUrl: ${REDIRECT_URL}
+      grantType: "authorization_code"

@@ -16,9 +16,9 @@ class PlaceEntity {
     var name: String? = null
 
     // 위도
-    var latitude: String? = null
+    var latitude: Double? = null
 
     // 경도
-    var longtitude: String? = null
+    var longitude: Double? = null
 
 }
