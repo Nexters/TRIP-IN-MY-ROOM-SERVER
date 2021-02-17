@@ -113,7 +113,7 @@ class IfControllerAdvice {
 			ex: Exception
 	
 	): ResponseEntity<*> {
-
+		
 		return ResponseEntity(
 				IfErrorResponse
 				(
@@ -125,5 +125,4 @@ class IfControllerAdvice {
 	}
 	
 	
-
 }

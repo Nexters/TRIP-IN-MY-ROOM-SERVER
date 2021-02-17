@@ -1,8 +1,8 @@
 package com.trip.my.room.server.user.service
 
 import com.google.gson.Gson
-import com.trip.my.room.server.user.dto.KakaoUser
 import com.trip.my.room.server.config.MyConfigurationProperties
+import com.trip.my.room.server.user.dto.KakaoUser
 import com.trip.my.room.server.user.dto.UserDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
@@ -22,7 +22,7 @@ class KakaoClientService(@Autowired private val restTemplate: RestTemplate,
 	// authorize_code -> get access_token, refresh_token from kakao
 	fun getUser(authorize_code: String): UserDto.UserJoinIn {
 		var myMap = mapOf("Content-type" to listOf("application/x-www-form-urlencoded;charset=utf-8"))
-		var values : MultiValueMap<String, String> = CollectionUtils.toMultiValueMap(myMap)
+		var values: MultiValueMap<String, String> = CollectionUtils.toMultiValueMap(myMap)
 		val headers = HttpHeaders(values)
 		
 		var query = "?grant_type=${myConfigProps.grantType}"
@@ -30,17 +30,17 @@ class KakaoClientService(@Autowired private val restTemplate: RestTemplate,
 		query += "&redirect_uri=${myConfigProps.redirectUrl}"
 		query += "&code=$authorize_code"
 		
-		val url: URI = URI.create(myConfigProps.authBaseUrl+query)
+		val url: URI = URI.create(myConfigProps.authBaseUrl + query)
 		val req = RequestEntity({}, headers, HttpMethod.POST, url)
 		val re = restTemplate.exchange(req, String::class.java)
 		val kUser = Gson().fromJson(re.body, KakaoUser::class.java)
-		return getUserExtraInfo(token_type= kUser.token_type , token = kUser.access_token)
+		return getUserExtraInfo(token_type = kUser.token_type, token = kUser.access_token)
 	}
 	
-	fun getUserExtraInfo(token_type: String, token : String): UserDto.UserJoinIn {
+	fun getUserExtraInfo(token_type: String, token: String): UserDto.UserJoinIn {
 		var myMap = mapOf("Content-type" to listOf("application/x-www-form-urlencoded;charset=utf-8"),
-						"Authorization" to listOf("${token_type} ${token}"))
-		var values : MultiValueMap<String, String> = CollectionUtils.toMultiValueMap(myMap)
+				"Authorization" to listOf("${token_type} ${token}"))
+		var values: MultiValueMap<String, String> = CollectionUtils.toMultiValueMap(myMap)
 		val headers = HttpHeaders(values)
 		
 		// https://developers.kakao.com/tool/rest-api/open/get/v2-user-me
