@@ -15,6 +15,7 @@ class CountryEntity {
 
     var type: String? = null
 
+    // TODO default image url 넣기
     var flagImageUrl: String? = null
 
     var letterImageUrl: String? = null

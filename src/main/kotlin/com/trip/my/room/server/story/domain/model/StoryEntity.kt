@@ -1,6 +1,8 @@
 package com.trip.my.room.server.story.domain.model
 
 import com.trip.my.room.server.common.entity.TimeEntity
+import com.trip.my.room.server.country.CountryEntity
+import com.trip.my.room.server.place.PlaceEntity
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.Instant
 import java.util.*
@@ -11,8 +13,10 @@ class StoryEntity(
     title: String,
     date: Instant,
     memo: String,
-    experiencePlace: String,
-    userId: UUID
+    userId: UUID,
+    place: PlaceEntity,
+    country: CountryEntity,
+    countryType: String?
 ) : TimeEntity() {
 
     @field:Id
@@ -25,17 +29,33 @@ class StoryEntity(
 
     var memo: String? = memo
 
-    var experiencePlace: String? = experiencePlace
-
     @field: LastModifiedDate
     var updatedAt: Instant? = null
 
     var userId: UUID? = userId
 
-    fun update(title: String, date: Instant, memo: String, experiencePlace: String) {
+    @field: ManyToOne
+    @field: JoinColumn(name = "place_id", nullable = true)
+    var place: PlaceEntity? = place
+
+    @field: ManyToOne
+    @field: JoinColumn(name = "conuntry_id", nullable = true)
+    var country: CountryEntity? = country
+
+    var countryType: String? = countryType
+
+    fun update(title: String, date: Instant, memo: String) {
         this.title = title
         this.date = date
         this.memo = memo
-        this.experiencePlace = experiencePlace
+    }
+
+    fun updatePlace(placeEntity: PlaceEntity) {
+        this.place = placeEntity
+    }
+
+    fun updateCountry(countryEntity: CountryEntity) {
+        this.country = countryEntity
+        this.countryType = countryEntity.type
     }
 }
