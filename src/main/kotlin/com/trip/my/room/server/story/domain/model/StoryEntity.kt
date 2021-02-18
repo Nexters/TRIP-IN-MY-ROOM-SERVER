@@ -35,6 +35,7 @@ class StoryEntity(
     @field: LastModifiedDate
     var updatedAt: Instant? = null
 
+    @Column(columnDefinition = "BINARY(16)")
     var userId: UUID? = userId
 
     @field: ManyToOne
