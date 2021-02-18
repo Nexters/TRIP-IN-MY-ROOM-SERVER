@@ -3,6 +3,7 @@ package com.trip.my.room.server.story.domain.model
 import com.trip.my.room.server.common.entity.TimeEntity
 import com.trip.my.room.server.country.CountryEntity
 import com.trip.my.room.server.place.PlaceEntity
+import org.hibernate.annotations.GenericGenerator
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.Instant
 import java.util.*
@@ -20,7 +21,9 @@ class StoryEntity(
 ) : TimeEntity() {
 
     @field:Id
-    @field:GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
     var id: UUID? = null
 
     var title: String? = title
@@ -35,11 +38,11 @@ class StoryEntity(
     var userId: UUID? = userId
 
     @field: ManyToOne
-    @field: JoinColumn(name = "place_id", nullable = true)
+    @field: JoinColumn(name = "place_id", nullable = true, columnDefinition = "BINARY(16)")
     var place: PlaceEntity? = place
 
     @field: ManyToOne
-    @field: JoinColumn(name = "conuntry_id", nullable = true)
+    @field: JoinColumn(name = "conuntry_id", nullable = true, columnDefinition = "BINARY(16)")
     var country: CountryEntity? = country
 
     var countryType: String? = countryType

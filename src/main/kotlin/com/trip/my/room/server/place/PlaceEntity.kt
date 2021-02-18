@@ -1,16 +1,16 @@
 package com.trip.my.room.server.place
 
+import org.hibernate.annotations.GenericGenerator
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity(name = "place")
 class PlaceEntity {
 
     @field: Id
-    @field: GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
     var id: UUID? = null
 
     var name: String? = null
