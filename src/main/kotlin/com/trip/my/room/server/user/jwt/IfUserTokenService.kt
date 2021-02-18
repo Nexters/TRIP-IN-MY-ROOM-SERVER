@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest
 class IfUserTokenService {
 	
 	// 토큰의 서명을 위한 값
-	var ifSignKey: String = "IfIfIf";
+	var ifSignKey: String = "IfIfIf"
 	
 	// https://do-study.tistory.com/106
 	fun parseTokenString(request: HttpServletRequest): String? {
@@ -30,18 +30,18 @@ class IfUserTokenService {
 		} else null
 	}
 	
-	fun createToken(userEntity: UserEntity, expSec: Long = 300): MutableMap<String, Any> {
+	fun createToken(userEntity: UserEntity, expSec: Long = 3000): MutableMap<String, Any> {
 		
 		// Headers
-		var headers: MutableMap<String, Any> = mutableMapOf();
+		val headers: MutableMap<String, Any> = mutableMapOf()
 		headers.put("typ", "jwt")
 		headers.put("alg", "HS256")
 		
 		// Payloads
-		var payloads: MutableMap<String, Any> = mutableMapOf()
-		var addExpSec: Long = expSec
-		var iat = LocalDateTime.now()
-		var expriedDateTime: Long = iat.plusSeconds(addExpSec).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+		val payloads: MutableMap<String, Any> = mutableMapOf()
+		val addExpSec: Long = expSec
+		val iat = LocalDateTime.now()
+		val expriedDateTime: Long = iat.plusSeconds(addExpSec).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 		
 		payloads.put("aud", "user") // 토큰 대상자
 		payloads.put("sub", "NextersIf") // 토큰 제목
@@ -51,13 +51,13 @@ class IfUserTokenService {
 		payloads.put("id", userEntity.id!!) // User ID
 		payloads.put("social", userEntity.social!!) // Social 가입 경로
 		
-		var accessToken: String = Jwts.builder()
+		val accessToken: String = Jwts.builder()
 				.setHeader(headers)
 				.setClaims(payloads)
 				.signWith(SignatureAlgorithm.HS256, ifSignKey.toByteArray())
 				.compact()
 		
-		var refreshToken: String = createRefreshToken(userEntity)
+		val refreshToken: String = createRefreshToken(userEntity)
 		
 		return mutableMapOf<String, Any>("tokenType" to "Bearer",
 				"access_token" to accessToken,
@@ -67,15 +67,15 @@ class IfUserTokenService {
 	
 	fun createRefreshToken(userEntity: UserEntity, refreshExpirationDateInMinutes: Long = 1440 * 3): String {
 		// Headers
-		var headers: MutableMap<String, Any> = mutableMapOf();
+		val headers: MutableMap<String, Any> = mutableMapOf()
 		headers.put("typ", "jwt")
 		headers.put("alg", "HS256")
 		
 		// Payloads
-		var payloads: MutableMap<String, Any> = mutableMapOf()
-		var addExpMinutes: Long = refreshExpirationDateInMinutes // 3days(1440(1day) * 3)
-		var iat = LocalDateTime.now()
-		var expriedDateTime: Long = iat.plusMinutes(addExpMinutes).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+		val payloads: MutableMap<String, Any> = mutableMapOf()
+		val addExpMinutes: Long = refreshExpirationDateInMinutes // 3days(1440(1day) * 3)
+		val iat = LocalDateTime.now()
+		val expriedDateTime: Long = iat.plusMinutes(addExpMinutes).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 		
 		payloads.put("aud", "user") // 토큰 대상자
 		payloads.put("sub", "NextersIf") // 토큰 제목
@@ -102,12 +102,12 @@ class IfUserTokenService {
 	
 	fun verifyToken(token: String?): Boolean {
 		try {
-			var claims: Claims = Jwts.parser()
+			val claims: Claims = Jwts.parser()
 					.setSigningKey(ifSignKey.toByteArray())
 					.parseClaimsJws(token)
 					.body
 			
-			var expiredTime: Long = claims.get("exp") as Long
+			val expiredTime: Long = claims.get("exp") as Long
 			val currentTime: Long = Instant.now().toEpochMilli()
 			if (currentTime < expiredTime) {
 				return true
@@ -121,7 +121,7 @@ class IfUserTokenService {
 	fun reNewAccessToken(userEntity: UserEntity, refreshToken: String, expSec: Long = 300): MutableMap<String, Any> {
 		val isAvailable: Boolean = verifyToken(refreshToken)
 		if (isAvailable) {
-			var userId = getUserIdFromToken(refreshToken)
+			val userId = getUserIdFromToken(refreshToken)
 			if (userEntity.id != userId) {
 				throw IfException(errorCode = IfErrorCode.MATCH_BETWEEN_TOKENS,
 						errorMessage = "리프레시 토큰과 엑세스 토큰의 사용자가 일치하지 않습니다",
@@ -135,7 +135,7 @@ class IfUserTokenService {
 	}
 	
 	fun createAuthentication(token: String, userId: UUID, authenticated: Boolean = true): IfAuthenticationToken {
-		var ifUserPrincipal = IfUserPrincipal(userId)
+		val ifUserPrincipal = IfUserPrincipal(userId)
 		return IfAuthenticationToken(ifUserPrincipal, token, authenticated)
 	}
 }

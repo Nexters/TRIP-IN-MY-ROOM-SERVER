@@ -7,9 +7,11 @@ import java.util.*
 
 @Repository
 interface CountryRepository : JpaRepository<CountryEntity, UUID>, CountryRepositoryCustom {
-    fun findAllByType(type: String): List<CountryEntity>
-
-    fun findByNameAndType(name: String, type: String): CountryEntity
-
-    fun countByUserAndType(userEntity: UserEntity, type: String): Long
+	fun findAllByType(type: String): List<CountryEntity>
+	
+	fun findByName(name: String): Optional<CountryEntity>
+	
+	fun findByNameAndType(name: String, type: String): CountryEntity
+	
+	fun countByUserAndType(userEntity: UserEntity, type: String): Long
 }

@@ -1,6 +1,5 @@
 package com.trip.my.room.server.place
 
-import com.trip.my.room.server.user.UserEntity
 import com.trip.my.room.server.user.UserRepository
 import org.springframework.stereotype.Service
 import java.util.*
@@ -26,7 +25,6 @@ class PlaceService(
     }
 
     fun createCustomPlace(userId: UUID, placeIn: PlaceDto.PlaceIn): PlaceDto.PlaceOut {
-        val user: UserEntity = userRepository.findById(userId).get()
         val newPlace = PlaceEntity().apply {
             this.name = placeIn.name
             this.latitude = placeIn.latitude
@@ -54,6 +52,12 @@ class PlaceService(
 
         return foundPlaceEntity
     }
+
+    fun findPlaceEntityIfExistIdOrNotMakeNewEntity(
+        placeId: UUID?,
+        placeInDto: PlaceDto.PlaceIn
+    ) = if (placeId == null) placeRepository.save(convertEntity(placeInDto))
+    else placeRepository.findById(placeId).get()
 
     private fun convertEntity(placeInDto: PlaceDto.PlaceIn): PlaceEntity {
         return PlaceEntity().apply {

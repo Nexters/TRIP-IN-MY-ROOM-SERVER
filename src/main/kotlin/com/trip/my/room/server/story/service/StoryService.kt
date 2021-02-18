@@ -84,6 +84,7 @@ class StoryService(
         storyPatchRequestDto: StoryPatchRequestDto,
         countryId: UUID?,
         newCountryName: String?,
+        placeId: UUID?,
         placeInDto: PlaceDto.PlaceIn
     ) {
         val foundStory = storyRepository.findById(storyId).orElseThrow()
@@ -94,7 +95,7 @@ class StoryService(
             storyPatchRequestDto.memo
         )
 
-        val placeEntity = placeService.getPlaceEntityByPlaceInDto(placeInDto)
+        val placeEntity = placeService.findPlaceEntityIfExistIdOrNotMakeNewEntity(placeId, placeInDto)
         if (!foundStory.equals(placeEntity)) {
             foundStory.updatePlace(placeEntity)
         }
@@ -128,6 +129,7 @@ class StoryService(
         return StoryResponseDto(
             storyEntity.id,
             storyEntity.date,
+            storyEntity.title,
             storyEntity.memo,
             storyEntity.createdAt,
             storyEntity.updatedAt,

@@ -14,5 +14,5 @@ else
   sleep 5
 fi
 
-bash ../run.sh
+bash $REPOSITORY/run.sh
 echo "> Deployment finished."
