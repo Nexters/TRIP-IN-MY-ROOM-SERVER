@@ -11,15 +11,26 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/countries")
 class CountryController(private val countryService: CountryService) {
-	
-	@ApiOperation("country 정보 가져오기 (others 옵션으로 내가 설정한 country함께 조회)")
-	@GetMapping
-	fun getCountriesByUserId(@AuthenticationPrincipal principal: IfUserPrincipal, @RequestParam("others", defaultValue = "false") others: Boolean): List<CountryDto.CountryOut> {
-		return countryService.getCountriesByUserId(principal.getUserUUID(), others)
-	}
-	
-	@GetMapping("/stories")
-	fun getPlaceWithStoryCount(@AuthenticationPrincipal principal: IfUserPrincipal): List<CountryStoryCountResponseDto> {
-		return countryService.getPlaceWithStoryCount(principal.getUserUUID())
-	}
+
+    @ApiOperation("country 정보 가져오기 (others 옵션으로 내가 설정한 country함께 조회)")
+    @GetMapping
+    fun getCountriesByUserId(
+        @AuthenticationPrincipal principal: IfUserPrincipal,
+        @RequestParam("others", defaultValue = "false") others: Boolean
+    ): List<CountryDto.CountryOut> {
+        return countryService.getCountriesByUserId(principal.getUserUUID(), others)
+    }
+
+    @GetMapping("/stories")
+    fun getPlaceWithStoryCount(@AuthenticationPrincipal principal: IfUserPrincipal): List<CountryStoryCountResponseDto> {
+        return countryService.getPlaceWithStoryCount(principal.getUserUUID())
+    }
+
+    @GetMapping("/search")
+    fun searchCountries(
+        @AuthenticationPrincipal principal: IfUserPrincipal,
+        @RequestParam("countryName") countryName: String
+    ): List<CountryResponseDto> {
+        return countryService.searchByCountryName(principal.getUserUUID(), countryName)
+    }
 }

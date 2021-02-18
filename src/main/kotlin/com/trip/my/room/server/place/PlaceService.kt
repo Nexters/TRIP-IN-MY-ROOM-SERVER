@@ -1,6 +1,5 @@
 package com.trip.my.room.server.place
 
-import com.trip.my.room.server.user.UserRepository
 import org.springframework.stereotype.Service
 import java.util.*
 import javax.transaction.Transactional
@@ -8,7 +7,6 @@ import javax.transaction.Transactional
 @Service
 class PlaceService(
     private val placeRepository: PlaceRepository,
-    private val userRepository: UserRepository,
     private val placeMapper: PlaceMapper
 ) {
 
