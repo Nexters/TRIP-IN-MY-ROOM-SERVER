@@ -34,7 +34,7 @@ class ServerApplication {
 	@EventListener(ApplicationReadyEvent::class)
 	fun afterStartUp() {
 		val baseUrl = "https://${awsS3BucketProperties!!.bucketName}.s3.ap-northeast-2.amazonaws.com"
-		val countries = mutableListOf<List<String>>(
+		val countries = mutableListOf(
 				listOf("Australia", "오스트리아", "AU"),
 				listOf("China", "중국", "CH"),
 				listOf("France", "프랑스", "FR"),
@@ -50,8 +50,9 @@ class ServerApplication {
 				listOf("Thailand", "태국", "THAI"),
 				listOf("UK", "영국", "UK"),
 				listOf("USA", "미국", "USA"),
-				listOf("Vietnam", "베트남", "VI"))
-		
+				listOf("Vietnam", "베트남", "VI"),
+				listOf("etc", "기타", "OTHER"))
+
 		for (country in countries) {
 			// 존재하지 않을 경우만 추가
 			if (!countryRepository!!.findByName(country[1]).isPresent) {

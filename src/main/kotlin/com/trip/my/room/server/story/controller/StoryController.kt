@@ -122,9 +122,9 @@ class StoryController(private val storyService: StoryService) {
 
 
     @GetMapping("/countries/{countryType}")
-    fun getStoriesGroupByCountryAndCountryId(
+    fun getStoriesGroupByCountryType(
         @AuthenticationPrincipal principal: IfUserPrincipal,
-        @PathVariable countryType: String
+        @PathVariable("countryType") countryType: String
     ): List<StoryResponseDto> {
         val userId = principal.getUserUUID()
 
