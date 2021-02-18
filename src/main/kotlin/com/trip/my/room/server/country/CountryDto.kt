@@ -12,16 +12,10 @@ class CountryDto {
 		var id: UUID? = null
 		var name: String? = null
 		var type: String? = null
+		var mainFood: String? = null
 		var flagImageUrl: String? = null
-		var letterImageUrl: String? = null
+		var albumStickerImageUrl: String? = null
+		var stampImageUrl: String? = null
 	}
-	
-	open class CountryWithStoryCountOut() {
-		var id: UUID? = null
-		var name: String? = null
-		var type: String? = null
-		var numberOfStories: Long? = null
-		var flagImageUrl: String? = null
-		var letterImageUrl: String? = null
-	}
+
 }
