@@ -42,7 +42,7 @@ class IfUserTokenService {
 		val addExpSec: Long = expSec
 		val iat = LocalDateTime.now()
 //		var expriedDateTime : Long = iat.plusSeconds(addExpSec).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-		var expriedDateTime : Long = iat.plusHours(addExpSec).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+		var expriedDateTime : Long = iat.plusDays(addExpSec).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 		payloads.put("aud", "user") // 토큰 대상자
 		payloads.put("sub", "NextersIf") // 토큰 제목
 		payloads.put("iss", "Nexters6team") // 토큰 발급자

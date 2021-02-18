@@ -37,9 +37,11 @@ class CountryService(
                     countryEntity.id,
                     countryEntity.name,
                     countryEntity.type,
+                    countryEntity.mainFood,
                     storyRepository.countByUserIdAndCountryType(userId, countryEntity.type),
                     countryEntity.flagImageUrl,
-                    countryEntity.letterImageUrl
+                    countryEntity.albumStickerImageUrl,
+                    countryEntity.stampImageUrl
                 )
             }
             .toList()
@@ -59,9 +61,11 @@ class CountryService(
             otherCountryEntity.id,
             otherCountryEntity.name,
             otherCountryEntity.type,
+            otherCountryEntity.mainFood,
             otherCountryCount,
             otherCountryEntity.flagImageUrl,
-            otherCountryEntity.letterImageUrl
+            otherCountryEntity.albumStickerImageUrl,
+            otherCountryEntity.stampImageUrl
         )
     }
 
@@ -97,8 +101,10 @@ class CountryService(
             foundCountryEntity.id,
             foundCountryEntity.name,
             foundCountryEntity.type,
+            foundCountryEntity.mainFood,
             foundCountryEntity.flagImageUrl,
-            foundCountryEntity.letterImageUrl
+            foundCountryEntity.albumStickerImageUrl,
+            foundCountryEntity.stampImageUrl
         )
     }
 }
