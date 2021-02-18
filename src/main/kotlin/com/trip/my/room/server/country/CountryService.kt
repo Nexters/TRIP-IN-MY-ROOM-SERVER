@@ -18,6 +18,20 @@ class CountryService(
     private val countryMapper: CountryMapper
 ) {
 
+    fun searchByCountryName(userId: UUID, countryName: String): List<CountryResponseDto> {
+        val searchedCountriesNotOtherType = countryRepository.findByNameContainingAndTypeIsNot(countryName, "OTHER").toMutableList()
+
+        val foundUserEntity = userRepository.findById(userId).orElseThrow()
+        val searchedPersonalCountiesList = countryRepository.findByNameContainingAndUser(countryName, foundUserEntity)
+
+        searchedCountriesNotOtherType.addAll(searchedPersonalCountiesList)
+        val mergedSearchedCountries = searchedCountriesNotOtherType
+
+        return mergedSearchedCountries.stream()
+            .map { countryEntity -> convertDto(countryEntity) }
+            .toList()
+    }
+
     fun getPlaceWithStoryCount(userId: UUID): List<CountryStoryCountResponseDto> {
         val allOfCountryEntity = COUNTRY_TYPE_LIST.stream()
             .map { countryType -> countryRepository.findAllByType(countryType) }
@@ -105,6 +119,18 @@ class CountryService(
             foundCountryEntity.flagImageUrl,
             foundCountryEntity.albumStickerImageUrl,
             foundCountryEntity.stampImageUrl
+        )
+    }
+
+    private fun convertDto(countryEntity: CountryEntity): CountryResponseDto {
+        return CountryResponseDto(
+            countryEntity.id,
+            countryEntity.name,
+            countryEntity.type,
+            countryEntity.mainFood,
+            countryEntity.flagImageUrl,
+            countryEntity.albumStickerImageUrl,
+            countryEntity.stampImageUrl
         )
     }
 }
