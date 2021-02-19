@@ -101,8 +101,13 @@ class UserController(
 	@DeleteMapping("")
 	fun out(@AuthenticationPrincipal principal: IfUserPrincipal): ResponseEntity<Any> {
 		// remove all data from DB
-		userService.deleteByUserId(principal.getUserUUID())
-		return ResponseEntity.status(HttpStatus.ACCEPTED).build()
+		val user: UserEntity = userService.findUserEntityByUserId(principal.getUserUUID())
+		val result = socialLoginService.unlinkWithSocial(user.social!!, user)
+		if (result) {
+			userService.deleteByUserId(principal.getUserUUID())
+			return ResponseEntity.status(HttpStatus.ACCEPTED).build()
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
 	}
 	
 	

@@ -5,6 +5,7 @@ import com.trip.my.room.server.picture.PictureFile
 import com.trip.my.room.server.picture.PictureStorageRepository
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
@@ -16,7 +17,7 @@ import java.util.stream.IntStream
 @RequestMapping("/pictures")
 class PictureController(private val pictureStorageRepository: PictureStorageRepository) {
 
-    @PostMapping
+    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun uploadPictureList(
         @RequestParam("pictures") multipartFiles: List<MultipartFile>,
         @RequestParam("name") name: String,

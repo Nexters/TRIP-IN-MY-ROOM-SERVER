@@ -2,6 +2,7 @@ package com.trip.my.room.server.user.service
 
 import com.google.gson.Gson
 import com.trip.my.room.server.config.MyConfigurationProperties
+import com.trip.my.room.server.user.dto.KakaoUnlinkUser
 import com.trip.my.room.server.user.dto.KakaoUser
 import com.trip.my.room.server.user.dto.UserDto
 import org.springframework.beans.factory.annotation.Autowired
@@ -60,5 +61,23 @@ class KakaoClientService(@Autowired private val restTemplate: RestTemplate,
 			this.socialId = socialId
 			this.social = "kakao"
 		}
+	}
+	
+	fun unlinkWithKakao(user_social_id: String): Boolean {
+		var myMap = mapOf("Authorization" to listOf("KakaoAK ${myConfigProps.appAdminKey}"))
+		var values: MultiValueMap<String, String> = CollectionUtils.toMultiValueMap(myMap)
+		val headers = HttpHeaders(values)
+		
+		var query = "?target_id_type=user_id"
+		query += "&target_id=${user_social_id}"
+		
+		val url: URI = URI.create(myConfigProps.apiBaseUrl + "/v1/user/unlink" + query)
+		val req = RequestEntity({}, headers, HttpMethod.POST, url)
+		val re = restTemplate.exchange(req, String::class.java)
+		var unlinkUser = Gson().fromJson(re.body, KakaoUnlinkUser::class.java)
+		if (unlinkUser.id.toString() == user_social_id) {
+			return true
+		}
+		return false
 	}
 }

@@ -35,6 +35,7 @@ class StoryService(
 
         return storyEntityList.stream()
             .map { storyEntity -> convertStoryResponseDto(storyEntity) }
+            .sorted { o1, o2 ->  o2.createdAt!!.compareTo(o1.createdAt)}
             .toList()
     }
 
