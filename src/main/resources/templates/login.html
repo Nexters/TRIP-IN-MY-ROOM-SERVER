@@ -6,5 +6,6 @@
 </head>
 <body>
 <a th:href="@{'https://kauth.kakao.com/oauth/authorize?client_id='+${client_id}+'&redirect_uri='+${redirectUri}+'&response_type=code&scope=account_email,profile'}">카카오 로그인</a>
+<a th:href="@{'https://nid.naver.com/oauth2.0/authorize?client_id='+${nclient_id}+'&redirect_uri='+${nredirectUri}+'&response_type=code&state=test'}">네이버 로그인</a>
 </body>
 </html>
