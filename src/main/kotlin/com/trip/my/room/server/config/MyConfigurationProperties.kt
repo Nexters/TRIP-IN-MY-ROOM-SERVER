@@ -10,6 +10,7 @@ class MyConfigurationProperties {
 	lateinit var apiBaseUrl : String
 	lateinit var redirectUrl : String
 	lateinit var grantType : String
+	lateinit var appAdminKey : String
 	
 	override fun toString(): String {
 		return "MyConfigurationProperties(clientId='$clientId', authBaseUrl='$authBaseUrl'," +

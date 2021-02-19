@@ -8,3 +8,7 @@ data class KakaoUser(
 		var refresh_token_expires_in : Long, // 리프레시 토큰 만료 시간
 		var scope : String
 ){}
+
+data class KakaoUnlinkUser(
+		var id : Int
+){}
