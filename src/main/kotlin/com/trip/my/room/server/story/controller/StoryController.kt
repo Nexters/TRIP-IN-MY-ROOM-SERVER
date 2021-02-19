@@ -9,6 +9,7 @@ import com.trip.my.room.server.story.service.StoryService
 import com.trip.my.room.server.user.IfUserPrincipal
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -30,7 +31,7 @@ class StoryController(private val storyService: StoryService) {
         return storyService.getStoriesById(id)
     }
 
-    @PostMapping
+    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     fun createNewStory(
         @AuthenticationPrincipal principal: IfUserPrincipal,
@@ -70,7 +71,7 @@ class StoryController(private val storyService: StoryService) {
         )
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     fun patchStory(
         @AuthenticationPrincipal principal: IfUserPrincipal,
