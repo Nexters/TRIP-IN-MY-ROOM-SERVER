@@ -1,16 +1,22 @@
 package com.trip.my.room.server.config
 
+import com.trip.my.room.server.common.filter.CorsFilter
 import com.trip.my.room.server.user.jwt.filter.IfTokenAuthenticationFilter
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.session.SessionManagementFilter
 
 
 @Configuration
 class SecurityConfiguration : WebSecurityConfigurerAdapter() {
+	
+	@Bean
+	fun IfCorsFilter(): CorsFilter = CorsFilter()
 	
 	// 참고 :  https://godekdls.github.io/Spring%20Security/kotlinconfiguration/#171-httpsecurity
 	override fun configure(http: HttpSecurity) {
@@ -49,6 +55,10 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 	
 	fun getIfTokenAuthenticationFilter(): IfTokenAuthenticationFilter {
 		return IfTokenAuthenticationFilter()
+	}
+	
+	fun otherConfigurations(http: HttpSecurity) {
+		http.addFilterBefore(IfCorsFilter(), SessionManagementFilter::class.java)
 	}
 	
 	
