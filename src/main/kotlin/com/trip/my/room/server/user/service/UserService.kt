@@ -65,4 +65,8 @@ class UserService(private val userRepository: UserRepository,
 	fun findByUserEmail(userEmail: String): UserEntity {
 		return userRepository.findByEmail(userEmail).get()
 	}
+	
+	fun deleteByUserId(userId: UUID) {
+		return userRepository.deleteById(userId)
+	}
 }
