@@ -9,10 +9,12 @@ class CountryMapper {
 	fun toDto(countryEntity: CountryEntity): CountryDto.CountryOut {
 		return CountryDto.CountryOut().apply {
 			this.id = countryEntity.id
-			this.letterImageUrl = countryEntity.letterImageUrl
-			this.flagImageUrl = countryEntity.flagImageUrl
 			this.name = countryEntity.name
 			this.type = countryEntity.type
+			this.mainFood = countryEntity.mainFood
+			this.flagImageUrl = countryEntity.flagImageUrl
+			this.albumStickerImageUrl = countryEntity.albumStickerImageUrl
+			this.stampImageUrl = countryEntity.stampImageUrl
 		}
 	}
 	

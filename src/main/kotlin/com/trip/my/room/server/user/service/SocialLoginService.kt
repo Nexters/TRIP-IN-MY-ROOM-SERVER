@@ -15,4 +15,11 @@ class SocialLoginService(@Autowired private val kakaoClientService: KakaoClientS
 		}
 		throw InvalidParameterException("유효하지 않은 socialType 입니다. : ${socialType}")
 	}
+
+	fun getSocialUserWithToken(socialType: String, tokenType: String, token: String): UserDto.UserJoinIn {
+		if (SocialType.valueOf(socialType.toUpperCase()).equals(SocialType.KAKAO)) {
+			return kakaoClientService.getUserExtraInfo(tokenType, token)
+		}
+		throw InvalidParameterException("유효하지 않은 socialType 입니다. : ${socialType}")
+	}
 }

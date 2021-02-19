@@ -1,6 +1,7 @@
 package com.trip.my.room.server.country
 
 import com.trip.my.room.server.user.UserEntity
+import org.hibernate.annotations.GenericGenerator
 import java.util.*
 import javax.persistence.*
 
@@ -8,20 +9,25 @@ import javax.persistence.*
 class CountryEntity {
 
     @field:Id
-    @field:GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
     var id: UUID? = null
 
     var name: String? = null
 
     var type: String? = null
 
-    // TODO default image url 넣기
+    var mainFood: String? = null
+
     var flagImageUrl: String? = null
 
-    var letterImageUrl: String? = null
+    var albumStickerImageUrl: String? = null
+
+    var stampImageUrl: String? = null
 
     @field: ManyToOne(fetch = FetchType.LAZY)
-    @field: JoinColumn(name = "user_id", nullable = true)
+    @field: JoinColumn(name = "user_id", nullable = true, columnDefinition = "BINARY(16)")
     var user: UserEntity? = null
 
 }

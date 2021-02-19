@@ -2,6 +2,7 @@ package com.trip.my.room.server.picture.domain
 
 import com.trip.my.room.server.common.enum.PictureOrder
 import com.trip.my.room.server.story.domain.model.StoryEntity
+import org.hibernate.annotations.GenericGenerator
 import java.util.*
 import javax.persistence.*
 
@@ -14,7 +15,9 @@ class PictureEntity(
 ) {
 
     @field:Id
-    @field:GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
     var id: UUID? = null
 
     @Enumerated(EnumType.STRING)
@@ -25,6 +28,6 @@ class PictureEntity(
     var fileName: String? = fileName
 
     @field: ManyToOne(fetch = FetchType.LAZY)
-    @field: JoinColumn(name = "story_id")
+    @field: JoinColumn(name = "story_id", columnDefinition = "BINARY(16)")
     var story: StoryEntity? = story
 }
