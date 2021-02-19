@@ -99,17 +99,16 @@ class UserController(
 	
 	@ApiOperation("탈퇴")
 	@DeleteMapping("")
-	fun out(@AuthenticationPrincipal principal: IfUserPrincipal): ResponseEntity<Any> {
+	fun out(@AuthenticationPrincipal principal: IfUserPrincipal, @RequestBody deleteIn : UserDto.DeleteIn): ResponseEntity<Any> {
 		// remove all data from DB
 		val user: UserEntity = userService.findUserEntityByUserId(principal.getUserUUID())
-		val result = socialLoginService.unlinkWithSocial(user.social!!, user)
+		val result = socialLoginService.unlinkWithSocial(user.social!!, user, deleteIn.accessToken)
 		if (result) {
 			userService.deleteByUserId(principal.getUserUUID())
 			return ResponseEntity.status(HttpStatus.ACCEPTED).build()
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
 	}
-	
 	
 	@ApiOperation("로그아웃")
 	@PostMapping("/logout")

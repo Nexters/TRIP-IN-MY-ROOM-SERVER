@@ -1,7 +1,8 @@
 package com.trip.my.room.server
 
 import com.trip.my.room.server.config.AwsS3BucketProperties
-import com.trip.my.room.server.config.MyConfigurationProperties
+import com.trip.my.room.server.config.MyKakaoConfigurationProperties
+import com.trip.my.room.server.config.MyNaverConfigurationProperties
 import com.trip.my.room.server.country.CountryEntity
 import com.trip.my.room.server.country.CountryRepository
 import com.trip.my.room.server.place.PlaceRepository
@@ -11,12 +12,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Bean
 import org.springframework.context.event.EventListener
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 
 @EnableJpaAuditing
 @SpringBootApplication
-@EnableConfigurationProperties(MyConfigurationProperties::class)
+@EnableConfigurationProperties(MyKakaoConfigurationProperties::class)
 class ServerApplication {
 	
 	@Autowired
@@ -30,6 +32,11 @@ class ServerApplication {
 	
 	@Autowired
 	private val awsS3BucketProperties: AwsS3BucketProperties? = null
+	
+	@Bean
+	fun myNaverConfigurationProperties(): MyNaverConfigurationProperties {
+		return MyNaverConfigurationProperties()
+	}
 	
 	@EventListener(ApplicationReadyEvent::class)
 	fun afterStartUp() {
@@ -52,7 +59,7 @@ class ServerApplication {
 				listOf("USA", "미국", "USA", "햄버거, 핫도그, 맥앤치즈, 바베큐"),
 				listOf("Vietnam", "베트남", "VI", "쌀국수, 반미, 분짜, 반쎄오, 스프링롤"),
 				listOf("etc", "기타", "OTHER", "기타"))
-
+		
 		for (country in countries) {
 			// 존재하지 않을 경우만 추가
 			if (!countryRepository!!.findByName(country[1]).isPresent) {
