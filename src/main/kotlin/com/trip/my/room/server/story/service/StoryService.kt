@@ -1,5 +1,6 @@
 package com.trip.my.room.server.story.service
 
+import com.trip.my.room.server.country.CountryMapper
 import com.trip.my.room.server.country.CountryService
 import com.trip.my.room.server.picture.service.PictureService
 import com.trip.my.room.server.place.PlaceDto
@@ -23,6 +24,7 @@ class StoryService(
     private val pictureService: PictureService,
     private val placeService: PlaceService,
     private val countryService: CountryService,
+    private val countryMapper: CountryMapper
 ) {
     fun getAllStoriesByUserId(userId: UUID): List<StoryResponseDto> {
         val storyEntityList = storyRepository.findByUserId(userId)
@@ -134,6 +136,7 @@ class StoryService(
             storyEntity.createdAt,
             storyEntity.updatedAt,
             storyEntity.userId,
+            countryMapper.toDto(storyEntity.country!!),
             pictureService.getPictureListByStoryId(storyEntity.id)
         )
     }
