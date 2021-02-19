@@ -1,18 +1,21 @@
 package com.trip.my.room.server.user.controller
 
-import com.trip.my.room.server.config.MyConfigurationProperties
-import org.springframework.beans.factory.annotation.Autowired
+import com.trip.my.room.server.config.MyKakaoConfigurationProperties
+import com.trip.my.room.server.config.MyNaverConfigurationProperties
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
-class LoginTestController(@Autowired val myConfig: MyConfigurationProperties) {
+class LoginTestController(val myKakaoConfig: MyKakaoConfigurationProperties,
+						  val myNaverConfig: MyNaverConfigurationProperties) {
 	
 	@GetMapping("")
 	fun loginPage(model: Model): String {
-		model.addAttribute("client_id", myConfig.clientId)
-		model.addAttribute("redirectUri", myConfig.redirectUrl)
+		model.addAttribute("client_id", myKakaoConfig.clientId)
+		model.addAttribute("redirectUri", myKakaoConfig.redirectUrl)
+		model.addAttribute("nclient_id", myNaverConfig.clientId)
+		model.addAttribute("nredirectUri", myNaverConfig.redirectUrl)
 		return "login"
 	}
 }

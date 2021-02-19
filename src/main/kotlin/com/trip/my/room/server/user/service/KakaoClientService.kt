@@ -1,11 +1,10 @@
 package com.trip.my.room.server.user.service
 
 import com.google.gson.Gson
-import com.trip.my.room.server.config.MyConfigurationProperties
+import com.trip.my.room.server.config.MyKakaoConfigurationProperties
 import com.trip.my.room.server.user.dto.KakaoUnlinkUser
 import com.trip.my.room.server.user.dto.KakaoUser
 import com.trip.my.room.server.user.dto.UserDto
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.RequestEntity
@@ -17,8 +16,8 @@ import java.net.URI
 
 
 @Service
-class KakaoClientService(@Autowired private val restTemplate: RestTemplate,
-						 @Autowired private val myConfigProps: MyConfigurationProperties) {
+class KakaoClientService(private val restTemplate: RestTemplate,
+						 private val myKakaoConfigProps: MyKakaoConfigurationProperties) {
 	
 	// authorize_code -> get access_token, refresh_token from kakao
 	fun getUser(authorize_code: String): UserDto.UserJoinIn {
@@ -26,12 +25,12 @@ class KakaoClientService(@Autowired private val restTemplate: RestTemplate,
 		var values: MultiValueMap<String, String> = CollectionUtils.toMultiValueMap(myMap)
 		val headers = HttpHeaders(values)
 		
-		var query = "?grant_type=${myConfigProps.grantType}"
-		query += "&client_id=${myConfigProps.clientId}"
-		query += "&redirect_uri=${myConfigProps.redirectUrl}"
+		var query = "?grant_type=${myKakaoConfigProps.grantType}"
+		query += "&client_id=${myKakaoConfigProps.clientId}"
+		query += "&redirect_uri=${myKakaoConfigProps.redirectUrl}"
 		query += "&code=$authorize_code"
 		
-		val url: URI = URI.create(myConfigProps.authBaseUrl + query)
+		val url: URI = URI.create(myKakaoConfigProps.authBaseUrl + query)
 		val req = RequestEntity({}, headers, HttpMethod.POST, url)
 		val re = restTemplate.exchange(req, String::class.java)
 		val kUser = Gson().fromJson(re.body, KakaoUser::class.java)
@@ -45,7 +44,7 @@ class KakaoClientService(@Autowired private val restTemplate: RestTemplate,
 		val headers = HttpHeaders(values)
 		
 		// https://developers.kakao.com/tool/rest-api/open/get/v2-user-me
-		val url: URI = URI.create(myConfigProps.apiBaseUrl + "/v2/user/me")
+		val url: URI = URI.create(myKakaoConfigProps.apiBaseUrl + "/v2/user/me")
 		val req = RequestEntity({}, headers, HttpMethod.GET, url)
 		val re = restTemplate.exchange(req, Any::class.java)
 		var response = re.body as HashMap<String, Any>
@@ -64,14 +63,14 @@ class KakaoClientService(@Autowired private val restTemplate: RestTemplate,
 	}
 	
 	fun unlinkWithKakao(user_social_id: String): Boolean {
-		var myMap = mapOf("Authorization" to listOf("KakaoAK ${myConfigProps.appAdminKey}"))
+		var myMap = mapOf("Authorization" to listOf("KakaoAK ${myKakaoConfigProps.appAdminKey}"))
 		var values: MultiValueMap<String, String> = CollectionUtils.toMultiValueMap(myMap)
 		val headers = HttpHeaders(values)
 		
 		var query = "?target_id_type=user_id"
 		query += "&target_id=${user_social_id}"
 		
-		val url: URI = URI.create(myConfigProps.apiBaseUrl + "/v1/user/unlink" + query)
+		val url: URI = URI.create(myKakaoConfigProps.apiBaseUrl + "/v1/user/unlink" + query)
 		val req = RequestEntity({}, headers, HttpMethod.POST, url)
 		val re = restTemplate.exchange(req, String::class.java)
 		var unlinkUser = Gson().fromJson(re.body, KakaoUnlinkUser::class.java)

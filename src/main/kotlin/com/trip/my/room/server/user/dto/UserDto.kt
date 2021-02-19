@@ -17,6 +17,10 @@ class UserDto {
 		var name: String? = null
 	}
 	
+	open class DeleteIn {
+		var accessToken : String ?= null
+	}
+	
 	open class BasicOut {
 		val id: Long? = null
 		var name: String? = null
