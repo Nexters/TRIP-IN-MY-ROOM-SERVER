@@ -19,10 +19,13 @@ class CountryService(
 ) {
 
     fun searchByCountryName(userId: UUID, countryName: String): List<CountryResponseDto> {
-        val searchedCountriesNotOtherType = countryRepository.findByNameContainingAndTypeIsNot(countryName, "OTHER").toMutableList()
+        val searchedCountriesNotOtherType =
+            countryRepository.findByNameContainingAndTypeIsNot(countryName, "OTHER").toMutableList()
 
-        val foundUserEntity = userRepository.findById(userId).orElseThrow()
-        val searchedPersonalCountiesList = countryRepository.findByNameContainingAndUser(countryName, foundUserEntity)
+        val foundUserEntity =
+            userRepository.findById(userId).orElseThrow { throw NoSuchElementException("해당 하는 user 정보가 없습니다.") }
+        val searchedPersonalCountiesList =
+            countryRepository.findByNameContainingAndUser(countryName, foundUserEntity)
 
         searchedCountriesNotOtherType.addAll(searchedPersonalCountiesList)
         val mergedSearchedCountries = searchedCountriesNotOtherType
@@ -68,7 +71,8 @@ class CountryService(
     private fun getCountryStoryCountAboutOtherType(userId: UUID): CountryStoryCountResponseDto {
         val otherCountryEntity = countryRepository.findByNameAndType("기타", "OTHER")
 
-        val foundUserEntity = userRepository.findById(userId).get()
+        val foundUserEntity = userRepository.findById(userId)
+            .orElseThrow { throw NoSuchElementException("해당 하는 user 정보가 없습니다.") }
         val otherCountryCount = countryRepository.countByUserAndType(foundUserEntity, "OTHER")
 
         return CountryStoryCountResponseDto(
@@ -94,7 +98,8 @@ class CountryService(
     }
 
     fun createNewOtherCountry(name: String?, userId: UUID): CountryEntity {
-        val foundUserEntity = userRepository.findById(userId).get()
+        val foundUserEntity = userRepository.findById(userId)
+            .orElseThrow { throw NoSuchElementException("해당 하는 user 정보가 없습니다.") }
 
         val countryEntity = CountryEntity().apply {
             this.name = name
@@ -106,11 +111,13 @@ class CountryService(
     }
 
     fun getByCountryId(countryId: UUID): CountryEntity {
-        return countryRepository.findById(countryId).get()
+        return countryRepository.findById(countryId)
+            .orElseThrow { throw NoSuchElementException("해당 하는 country 정보가 없습니다.") }
     }
 
     fun getCountryResponseDtoById(countryId: UUID): CountryResponseDto {
-        val foundCountryEntity = countryRepository.findById(countryId).get()
+        val foundCountryEntity = countryRepository.findById(countryId)
+            .orElseThrow { throw NoSuchElementException("해당 하는 country 정보가 없습니다.") }
         return CountryResponseDto(
             foundCountryEntity.id,
             foundCountryEntity.name,
