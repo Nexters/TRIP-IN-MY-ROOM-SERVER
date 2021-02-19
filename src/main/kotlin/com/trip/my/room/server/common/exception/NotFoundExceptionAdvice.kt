@@ -17,7 +17,7 @@ class NotFoundExceptionAdvice {
         request: WebRequest
     ): ResponseEntity<*> {
         return ResponseEntity(
-            IfErrorResponse("400", "There is not any elements related to your input \n error=${ex.message}"),
+            IfErrorResponse("400", "There is not any elements related to your input. message=${ex.message}"),
             HttpStatus.BAD_REQUEST
         )
     }

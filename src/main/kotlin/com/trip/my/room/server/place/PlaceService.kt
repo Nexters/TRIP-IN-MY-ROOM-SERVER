@@ -10,18 +10,6 @@ class PlaceService(
     private val placeMapper: PlaceMapper
 ) {
 
-    fun getPlaces(userId: UUID): List<PlaceDto.PlaceOut> {
-//        val placeResult = placeRepository.findAllByUserId(userId)
-//        return placeMapper.toDtoList(placeResult!!)
-        return emptyList()
-    }
-
-    fun searchPlaceByPlaceName(placeStr: String): List<PlaceDto.PlaceOut> {
-        val placeResult = placeRepository.findByPlaceName(placeStr)
-//        return placeMapper.toDtoList(placeResult!!)
-        return emptyList()
-    }
-
     fun createCustomPlace(userId: UUID, placeIn: PlaceDto.PlaceIn): PlaceDto.PlaceOut {
         val newPlace = PlaceEntity().apply {
             this.name = placeIn.name
@@ -33,7 +21,9 @@ class PlaceService(
     }
 
     fun getPlaceDtoById(placeId: UUID): PlaceDto.PlaceOut {
-        return placeMapper.toDto(placeRepository.findById(placeId).get())
+        val placeEntity = placeRepository.findById(placeId)
+            .orElseThrow { throw NoSuchElementException("해당 하는 place 정보가 없습니다.") }
+        return placeMapper.toDto(placeEntity)
     }
 
     @Transactional
@@ -55,7 +45,7 @@ class PlaceService(
         placeId: UUID?,
         placeInDto: PlaceDto.PlaceIn
     ) = if (placeId == null) placeRepository.save(convertEntity(placeInDto))
-    else placeRepository.findById(placeId).get()
+    else placeRepository.findById(placeId).orElseThrow { throw NoSuchElementException("해당 하는 place 정보가 없습니다.") }
 
     private fun convertEntity(placeInDto: PlaceDto.PlaceIn): PlaceEntity {
         return PlaceEntity().apply {

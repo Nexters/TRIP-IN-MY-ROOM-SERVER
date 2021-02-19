@@ -35,9 +35,9 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 		// 다음 리퀘스트에 대한 사용 권한 체크
 		http.authorizeRequests()
 //				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-				.antMatchers("/h2-console/**").permitAll()
 				.antMatchers("/countries/**").authenticated()
 				.antMatchers("/users/**").authenticated()
+				.antMatchers("/h2-console/**").permitAll()
 				.antMatchers("/users/token/refresh/**").permitAll()
 		
 		// 토큰 인증 필터 추가

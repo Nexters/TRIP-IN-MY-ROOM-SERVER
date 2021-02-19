@@ -29,18 +29,15 @@ class StoryService(
     fun getAllStoriesByUserId(userId: UUID): List<StoryResponseDto> {
         val storyEntityList = storyRepository.findByUserId(userId)
 
-        if (storyEntityList.isEmpty()) {
-            return emptyList()
-        }
-
         return storyEntityList.stream()
             .map { storyEntity -> convertStoryResponseDto(storyEntity) }
-            .sorted { o1, o2 ->  o2.createdAt!!.compareTo(o1.createdAt)}
+            .sorted { o1, o2 -> o2.createdAt!!.compareTo(o1.createdAt) }
             .toList()
     }
 
     fun getStoriesById(storyId: UUID): StoryDetailResponseDto {
-        val foundStoryEntity = storyRepository.findById(storyId).orElseThrow()
+        val foundStoryEntity = storyRepository.findById(storyId)
+            .orElseThrow { throw NoSuchElementException("해당 하는 user 정보가 없습니다.") }
         val foundPictureResponseDto = pictureService.getPictureListByStoryId(storyId)
         val foundPlaceResponseDto = placeService.getPlaceDtoById(foundStoryEntity.place?.id!!)
         val foundCountryResponseDto = countryService.getCountryResponseDtoById(foundStoryEntity.country?.id!!)
@@ -73,8 +70,6 @@ class StoryService(
         val storyEntity = storyCreateRequestDto.toEntity(userId, placeEntity, countryEntity)
 
         val savedStoryEntity = storyRepository.save(storyEntity)
-
-        println("storyId=${savedStoryEntity.id}")
 
         pictureService.createNewPicture(savedStoryEntity, multipartFiles)
     }
