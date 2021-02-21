@@ -42,7 +42,7 @@ class ServerApplication {
 	fun afterStartUp() {
 		val baseUrl = "https://${awsS3BucketProperties!!.bucketName}.s3.ap-northeast-2.amazonaws.com"
 		val countries = mutableListOf(
-				listOf("Australia", "오스트리아", "AU", "에그타르트, 딤심, 완탕면, 우육면, 계란와플"),
+				listOf("Australia", "오스트레일리아", "AU", "에그타르트, 딤심, 완탕면, 우육면, 계란와플"),
 				listOf("China", "중국", "CH", "마라탕, 마라샹궈, 마파두부, 짜장면, 짬뽕"),
 				listOf("France", "프랑스", "FR", "마카롱, 크로와상, 바게트, 라따뚜이"),
 				listOf("Hongkong", "홍콩", "HO", "에그타르트, 딤심, 완탕면, 우육면, 계란와플"),
