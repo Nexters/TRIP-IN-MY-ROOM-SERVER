@@ -6,10 +6,6 @@ import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.streams.toList
 
-val COUNTRY_TYPE_LIST: List<String> = listOf(
-    "AU", "CH", "FR", "HO", "IT", "JP", "KO", "MA", "RU", "SIN", "SP", "TAI", "THAI", "UK", "USA", "VI",
-)
-
 @Service
 class CountryService(
     private val countryRepository: CountryRepository,
@@ -17,20 +13,26 @@ class CountryService(
     private val userRepository: UserRepository,
     private val countryMapper: CountryMapper
 ) {
+    val COUNTRY_TYPE_LIST: List<String> = listOf(
+        "AU", "CH", "FR", "HO", "IT", "JP", "KO", "MA", "RU", "SIN", "SP", "TAI", "THAI", "UK", "USA", "VI",
+    )
 
     fun searchByCountryName(userId: UUID, countryName: String): List<CountryResponseDto> {
+        val totalSearchedCountries = mutableListOf<CountryEntity>()
+
+        // Other로 되어진 나라들을 검색
         val searchedCountriesNotOtherType =
             countryRepository.findByNameContainingAndTypeIsNot(countryName, "OTHER").toMutableList()
+        searchedCountriesNotOtherType.addAll(searchedCountriesNotOtherType)
 
+        // Other를 제외한 나라들을 검색
         val foundUserEntity =
             userRepository.findById(userId).orElseThrow { throw NoSuchElementException("해당 하는 user 정보가 없습니다.") }
         val searchedPersonalCountiesList =
-            countryRepository.findByNameContainingAndUser(countryName, foundUserEntity)
-
+            countryRepository.findByNameContainingAndUser(countryName, foundUserEntity).toMutableList()
         searchedCountriesNotOtherType.addAll(searchedPersonalCountiesList)
-        val mergedSearchedCountries = searchedCountriesNotOtherType
 
-        return mergedSearchedCountries.stream()
+        return totalSearchedCountries.stream()
             .map { countryEntity -> convertDto(countryEntity) }
             .toList()
     }

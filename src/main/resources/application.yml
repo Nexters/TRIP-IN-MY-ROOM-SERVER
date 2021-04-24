@@ -52,3 +52,5 @@ cloud:
       auto: false
     credentials:
       instanceProfile: false
+
+logging.level.com.amazonaws.util.EC2MetadataUtils: error

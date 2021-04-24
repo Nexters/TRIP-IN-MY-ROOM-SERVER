@@ -7,6 +7,7 @@ import com.trip.my.room.server.story.controller.dto.StoryPatchRequestDto
 import com.trip.my.room.server.story.controller.dto.StoryResponseDto
 import com.trip.my.room.server.story.service.StoryService
 import com.trip.my.room.server.user.IfUserPrincipal
+import mu.KLogging
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -19,6 +20,8 @@ import java.util.*
 @RestController
 @RequestMapping("/stories")
 class StoryController(private val storyService: StoryService) {
+
+    companion object : KLogging()
 
     @GetMapping
     fun getAllStories(@AuthenticationPrincipal principal: IfUserPrincipal): List<StoryResponseDto> {
@@ -60,6 +63,8 @@ class StoryController(private val storyService: StoryService) {
             this.latitude = placeLatitude
             this.longtitude = placeLongitude
         }
+
+        logger.info { "[createNewStory] userId=$userId storyCreateRequestDto=$storyCreateRequestDto placeDto=$placeResponseDto" }
 
         storyService.createNewStory(
             userId,
@@ -103,6 +108,8 @@ class StoryController(private val storyService: StoryService) {
             this.longtitude = placeLongitude
         }
 
+        logger.info { "[patchStory] userId=$userId storyPatchRequestDto=$storyPatchRequestDto placeDto=$placeResponseDto" }
+
         storyService.patchStory(
             userId,
             id,
@@ -128,6 +135,8 @@ class StoryController(private val storyService: StoryService) {
         @PathVariable("countryType") countryType: String
     ): List<StoryResponseDto> {
         val userId = principal.getUserUUID()
+
+        logger.info { "[getStoriesGroupByCountryType] userId=$userId countryType=$countryType" }
 
         return storyService.getStoriesByCountryType(userId, countryType.toUpperCase())
     }
