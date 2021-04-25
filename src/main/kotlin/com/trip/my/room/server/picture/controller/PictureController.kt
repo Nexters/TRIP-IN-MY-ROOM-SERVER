@@ -1,5 +1,6 @@
 package com.trip.my.room.server.picture.controller
 
+import com.trip.my.room.server.application.PreSignedUriService
 import com.trip.my.room.server.common.enum.PictureOrder
 import com.trip.my.room.server.picture.PictureFile
 import com.trip.my.room.server.picture.PictureStorageRepository
@@ -15,7 +16,10 @@ import java.util.stream.IntStream
 
 @RestController
 @RequestMapping("/pictures")
-class PictureController(private val pictureStorageRepository: PictureStorageRepository) {
+class PictureController(
+    private val pictureStorageRepository: PictureStorageRepository,
+    private val preSignedUriService: PreSignedUriService
+) {
 
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun uploadPictureList(
@@ -35,6 +39,11 @@ class PictureController(private val pictureStorageRepository: PictureStorageRepo
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletePicture(@RequestParam("filePath") filePath: String) {
         pictureStorageRepository.deletePicture(filePath)
+    }
+
+    @PostMapping(value = ["/presigned"])
+    fun newUploadPicture(@RequestParam("fileNameList") fileNameList: List<String>): String {
+        return preSignedUriService.getPreSignedUriList(fileNameList).toString()
     }
 
 }

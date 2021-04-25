@@ -54,3 +54,4 @@ cloud:
       instanceProfile: false
 
 logging.level.com.amazonaws.util.EC2MetadataUtils: error
+logging.level.com.amazonaws.internal.EC2ResourceFetcher: error
