@@ -47,7 +47,7 @@ class CountryController(private val countryService: CountryService) {
         val userId = principal.getUserUUID()
         val searchByCountryName = countryService.searchByCountryName(principal.getUserUUID(), countryName)
 
-        logger.info { "userId=$userId searchByCountryName=$searchByCountryName" }
+        logger.info { "userId=$userId, countryName=$countryName, searchByCountryName=$searchByCountryName" }
 
         return searchByCountryName
     }

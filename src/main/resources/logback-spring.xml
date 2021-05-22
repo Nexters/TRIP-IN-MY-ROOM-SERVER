@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <property name="LOG_DIR" value="/home/back-end"/>
+  <springProperty name="LOG_DIR" source="log_dir"/>
   <property name="LOG_FILE_PATH" value="${LOG_DIR}/app.log"/>
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">

@@ -20,17 +20,17 @@ class CountryService(
     fun searchByCountryName(userId: UUID, countryName: String): List<CountryResponseDto> {
         val totalSearchedCountries = mutableListOf<CountryEntity>()
 
-        // Other로 되어진 나라들을 검색
+        // Other를 제외한 나라 검색
         val searchedCountriesNotOtherType =
-            countryRepository.findByNameContainingAndTypeIsNot(countryName, "OTHER").toMutableList()
-        searchedCountriesNotOtherType.addAll(searchedCountriesNotOtherType)
+            countryRepository.findByNameContainingAndTypeIsNot(countryName, "OTHER")
+        totalSearchedCountries.addAll(searchedCountriesNotOtherType)
 
-        // Other를 제외한 나라들을 검색
+        // 사용자 등록 나라 검색
         val foundUserEntity =
             userRepository.findById(userId).orElseThrow { throw NoSuchElementException("해당 하는 user 정보가 없습니다.") }
         val searchedPersonalCountiesList =
-            countryRepository.findByNameContainingAndUser(countryName, foundUserEntity).toMutableList()
-        searchedCountriesNotOtherType.addAll(searchedPersonalCountiesList)
+            countryRepository.findByNameContainingAndUser(countryName, foundUserEntity)
+        totalSearchedCountries.addAll(searchedPersonalCountiesList)
 
         return totalSearchedCountries.stream()
             .map { countryEntity -> convertDto(countryEntity) }
