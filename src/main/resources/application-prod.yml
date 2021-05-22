@@ -26,3 +26,5 @@ my:
       apiBaseUrl: ${API_BASE_URL}
       redirectUrl: ${REDIRECT_URL}
       grantType: "authorization_code"
+
+log_dir: ~/back-end/log
