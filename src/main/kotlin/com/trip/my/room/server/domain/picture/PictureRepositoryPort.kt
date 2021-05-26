@@ -1,12 +1,11 @@
-package com.trip.my.room.server.picture
+package com.trip.my.room.server.domain.picture
 
-import com.trip.my.room.server.picture.domain.PictureEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface PictureRepository : JpaRepository<PictureEntity, UUID> {
+interface PictureRepositoryPort : JpaRepository<PictureEntity, UUID> {
 
     fun findByStoryId(storyId: UUID?): List<PictureEntity>
 

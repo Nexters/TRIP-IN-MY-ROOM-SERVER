@@ -1,5 +1,6 @@
 package com.trip.my.room.server.story.controller
 
+import com.trip.my.room.server.domain.picture.PictureRequestDto
 import com.trip.my.room.server.place.PlaceDto
 import com.trip.my.room.server.story.controller.dto.StoryCreateRequestDto
 import com.trip.my.room.server.story.controller.dto.StoryDetailResponseDto
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
 import java.util.*
 
@@ -46,7 +46,7 @@ class StoryController(private val storyService: StoryService) {
         date: LocalDateTime,
 
         @RequestParam("memo") memo: String,
-        @RequestParam("pictures") multipartFiles: List<MultipartFile>,
+        @RequestParam("pictures") pictureRequestDtoList: List<PictureRequestDto>,
 
         @RequestParam("countryId") countryId: UUID?,
         @RequestParam("newCountryName") newCountryName: String?,
@@ -68,7 +68,7 @@ class StoryController(private val storyService: StoryService) {
 
         storyService.createNewStory(
             userId,
-            multipartFiles,
+            pictureRequestDtoList,
             storyCreateRequestDto,
             countryId,
             newCountryName,
@@ -89,7 +89,7 @@ class StoryController(private val storyService: StoryService) {
         date: LocalDateTime,
 
         @RequestParam("memo") memo: String,
-        @RequestParam("pictures") multipartFiles: List<MultipartFile>,
+        @RequestParam("pictures") pictureRequestDtoList: List<PictureRequestDto>,
 
         @RequestParam("countryId") countryId: UUID?,
         @RequestParam("newCountryName") newCountryName: String?,
@@ -113,7 +113,7 @@ class StoryController(private val storyService: StoryService) {
         storyService.patchStory(
             userId,
             id,
-            multipartFiles,
+            pictureRequestDtoList,
             storyPatchRequestDto,
             countryId,
             newCountryName,

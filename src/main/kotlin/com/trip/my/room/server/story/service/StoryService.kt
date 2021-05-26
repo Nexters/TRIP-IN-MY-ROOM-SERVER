@@ -2,7 +2,8 @@ package com.trip.my.room.server.story.service
 
 import com.trip.my.room.server.country.CountryMapper
 import com.trip.my.room.server.country.CountryService
-import com.trip.my.room.server.picture.service.PictureService
+import com.trip.my.room.server.domain.picture.PictureRequestDto
+import com.trip.my.room.server.domain.picture.service.PictureRepository
 import com.trip.my.room.server.place.PlaceDto
 import com.trip.my.room.server.place.PlaceService
 import com.trip.my.room.server.story.controller.dto.StoryCreateRequestDto
@@ -12,7 +13,6 @@ import com.trip.my.room.server.story.controller.dto.StoryResponseDto
 import com.trip.my.room.server.story.domain.model.StoryEntity
 import com.trip.my.room.server.story.domain.repository.StoryRepository
 import org.springframework.stereotype.Service
-import org.springframework.web.multipart.MultipartFile
 import java.time.ZoneOffset
 import java.util.*
 import javax.transaction.Transactional
@@ -21,7 +21,7 @@ import kotlin.streams.toList
 @Service
 class StoryService(
     private val storyRepository: StoryRepository,
-    private val pictureService: PictureService,
+    private val pictureRepository: PictureRepository,
     private val placeService: PlaceService,
     private val countryService: CountryService,
     private val countryMapper: CountryMapper
@@ -38,7 +38,7 @@ class StoryService(
     fun getStoriesById(storyId: UUID): StoryDetailResponseDto {
         val foundStoryEntity = storyRepository.findById(storyId)
             .orElseThrow { throw NoSuchElementException("해당 하는 user 정보가 없습니다.") }
-        val foundPictureResponseDto = pictureService.getPictureListByStoryId(storyId)
+        val foundPictureResponseDto = pictureRepository.getPictureListByStoryId(storyId)
         val foundPlaceResponseDto = placeService.getPlaceDtoById(foundStoryEntity.place?.id!!)
         val foundCountryResponseDto = countryService.getCountryResponseDtoById(foundStoryEntity.country?.id!!)
 
@@ -59,7 +59,7 @@ class StoryService(
     @Transactional
     fun createNewStory(
         userId: UUID,
-        multipartFiles: List<MultipartFile>,
+        pictureRequestDtoList: List<PictureRequestDto>,
         storyCreateRequestDto: StoryCreateRequestDto,
         countryId: UUID?,
         newCountryName: String?,
@@ -71,14 +71,14 @@ class StoryService(
 
         val savedStoryEntity = storyRepository.save(storyEntity)
 
-        pictureService.createNewPicture(savedStoryEntity, multipartFiles)
+        pictureRepository.createNewPicture(savedStoryEntity, pictureRequestDtoList)
     }
 
     @Transactional
     fun patchStory(
         userId: UUID,
         storyId: UUID,
-        multipartFiles: List<MultipartFile>,
+        pictureRequestDtoList: List<PictureRequestDto>,
         storyPatchRequestDto: StoryPatchRequestDto,
         countryId: UUID?,
         newCountryName: String?,
@@ -103,8 +103,8 @@ class StoryService(
             foundStory.updateCountry(countryEntity)
         }
 
-        pictureService.deletePictureByStoryId(storyId)
-        pictureService.createNewPicture(foundStory, multipartFiles)
+        pictureRepository.deletePictureByStoryId(storyId)
+        pictureRepository.createNewPicture(foundStory, pictureRequestDtoList)
     }
 
     private fun getCountryEntityByUsingCountryId(countryId: UUID?, newCountryName: String?, userId: UUID) =
@@ -113,7 +113,7 @@ class StoryService(
 
     @Transactional
     fun deleteStory(storyId: UUID) {
-        pictureService.deletePictureByStoryId(storyId)
+        pictureRepository.deletePictureByStoryId(storyId)
         storyRepository.deleteById(storyId)
     }
 
@@ -133,7 +133,7 @@ class StoryService(
             storyEntity.updatedAt,
             storyEntity.userId,
             countryMapper.toDto(storyEntity.country!!),
-            pictureService.getPictureListByStoryId(storyEntity.id)
+            pictureRepository.getPictureListByStoryId(storyEntity.id)
         )
     }
 }

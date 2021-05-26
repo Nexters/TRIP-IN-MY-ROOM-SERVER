@@ -37,13 +37,13 @@ class S3Client(
 
     fun createFileKey(pictureFile: File, basePath: String) = "${basePath}/${pictureFile.name}"
 
-    override fun deletePicture(filePath: String?) {
-        amazonS3.deleteObject(DeleteObjectRequest(awsS3BucketProperties.bucketName, filePath))
+    override fun deletePicture(storageKey: String) {
+        amazonS3.deleteObject(DeleteObjectRequest(awsS3BucketProperties.bucketName, storageKey))
     }
 
-    override fun deleteBulkPictures(filePathList: List<String?>) {
-        val keyVersionList = filePathList.stream()
-            .map { filePath -> DeleteObjectsRequest.KeyVersion(filePath) }
+    override fun deleteBulkPictures(storageKeyList: List<String?>) {
+        val keyVersionList = storageKeyList.stream()
+            .map { storageKey -> DeleteObjectsRequest.KeyVersion(storageKey) }
             .toList()
 
         amazonS3.deleteObjects(

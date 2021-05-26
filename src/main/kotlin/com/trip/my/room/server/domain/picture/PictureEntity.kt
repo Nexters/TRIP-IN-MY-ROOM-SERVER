@@ -1,4 +1,4 @@
-package com.trip.my.room.server.picture.domain
+package com.trip.my.room.server.domain.picture
 
 import com.trip.my.room.server.common.enum.PictureOrder
 import com.trip.my.room.server.story.domain.model.StoryEntity

@@ -1,4 +1,4 @@
-package com.trip.my.room.server.picture
+package com.trip.my.room.server.domain.picture
 
 import com.trip.my.room.server.common.enum.PictureOrder
 import org.springframework.web.multipart.MultipartFile

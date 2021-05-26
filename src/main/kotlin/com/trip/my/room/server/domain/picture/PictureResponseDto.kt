@@ -1,4 +1,4 @@
-package com.trip.my.room.server.picture.controller
+package com.trip.my.room.server.domain.picture
 
 import java.util.*
 

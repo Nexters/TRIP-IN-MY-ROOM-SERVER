@@ -9,8 +9,8 @@ interface PictureStorageClient {
 
     fun uploadPictureList(pictureFiles: List<File>, basePath: String): List<URL>
 
-    fun deletePicture(filePath: String?)
+    fun deletePicture(storageKey: String)
 
-    fun deleteBulkPictures(filePathList: List<String?>)
+    fun deleteBulkPictures(storageKeyList: List<String?>)
 
 }
