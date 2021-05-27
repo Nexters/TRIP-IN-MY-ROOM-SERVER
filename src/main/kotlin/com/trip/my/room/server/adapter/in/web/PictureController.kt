@@ -1,7 +1,7 @@
 package com.trip.my.room.server.adapter.`in`.web
 
-import com.trip.my.room.server.application.PreSignedUriService
-import com.trip.my.room.server.domain.picture.PictureStorageRepository
+import com.trip.my.room.server.application.port.`in`.CreatePreSignedUrlUseCase
+import com.trip.my.room.server.application.port.`in`.DeletePictureUseCase
 import com.trip.my.room.server.domain.picture.PreSignedUrlResponseDto
 import mu.KLogging
 import org.springframework.http.HttpStatus
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/pictures")
 class PictureController(
-    private val pictureStorageRepository: PictureStorageRepository,
-    private val preSignedUriService: PreSignedUriService
+    private val createPreSignedUrlUseCase: CreatePreSignedUrlUseCase,
+    private val deletePictureUseCase: DeletePictureUseCase
 ) {
 
     companion object : KLogging()
 
     @PostMapping(value = ["/presigned"])
     fun getPreSignedUrls(@RequestParam("fileNameList") fileNameList: List<String>): List<PreSignedUrlResponseDto> {
-        val preSignedUriList = preSignedUriService.getPreSignedUriList(fileNameList)
+        val preSignedUriList = createPreSignedUrlUseCase.createPreSignedUriList(fileNameList)
 
         logger.info { "preSignedUriList=${preSignedUriList}" }
 
@@ -28,7 +28,7 @@ class PictureController(
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletePictureList(@RequestParam("storageKeyList") storageKeyList: List<String>) {
-        pictureStorageRepository.deleteBulkPictures(storageKeyList)
+        deletePictureUseCase.deletePicture(storageKeyList)
     }
 
 }

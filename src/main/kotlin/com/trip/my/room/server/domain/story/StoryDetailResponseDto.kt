@@ -1,4 +1,4 @@
-package com.trip.my.room.server.story.controller.dto
+package com.trip.my.room.server.domain.story
 
 import com.trip.my.room.server.country.CountryResponseDto
 import com.trip.my.room.server.domain.picture.PictureResponseDto

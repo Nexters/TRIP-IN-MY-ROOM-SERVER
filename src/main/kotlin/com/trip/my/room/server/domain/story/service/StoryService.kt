@@ -1,17 +1,17 @@
-package com.trip.my.room.server.story.service
+package com.trip.my.room.server.domain.story.service
 
+import com.trip.my.room.server.adapter.out.persistence.jpa.PictureJpaAdapter
 import com.trip.my.room.server.country.CountryMapper
 import com.trip.my.room.server.country.CountryService
 import com.trip.my.room.server.domain.picture.PictureRequestDto
-import com.trip.my.room.server.domain.picture.service.PictureRepository
+import com.trip.my.room.server.domain.story.StoryCreateRequestDto
+import com.trip.my.room.server.domain.story.StoryDetailResponseDto
+import com.trip.my.room.server.domain.story.StoryPatchRequestDto
+import com.trip.my.room.server.domain.story.StoryResponseDto
+import com.trip.my.room.server.domain.story.domain.model.StoryEntity
+import com.trip.my.room.server.domain.story.domain.repository.StoryRepository
 import com.trip.my.room.server.place.PlaceDto
 import com.trip.my.room.server.place.PlaceService
-import com.trip.my.room.server.story.controller.dto.StoryCreateRequestDto
-import com.trip.my.room.server.story.controller.dto.StoryDetailResponseDto
-import com.trip.my.room.server.story.controller.dto.StoryPatchRequestDto
-import com.trip.my.room.server.story.controller.dto.StoryResponseDto
-import com.trip.my.room.server.story.domain.model.StoryEntity
-import com.trip.my.room.server.story.domain.repository.StoryRepository
 import org.springframework.stereotype.Service
 import java.time.ZoneOffset
 import java.util.*
@@ -21,7 +21,7 @@ import kotlin.streams.toList
 @Service
 class StoryService(
     private val storyRepository: StoryRepository,
-    private val pictureRepository: PictureRepository,
+    private val pictureJpaAdapter: PictureJpaAdapter,
     private val placeService: PlaceService,
     private val countryService: CountryService,
     private val countryMapper: CountryMapper
@@ -38,7 +38,7 @@ class StoryService(
     fun getStoriesById(storyId: UUID): StoryDetailResponseDto {
         val foundStoryEntity = storyRepository.findById(storyId)
             .orElseThrow { throw NoSuchElementException("해당 하는 user 정보가 없습니다.") }
-        val foundPictureResponseDto = pictureRepository.getPictureListByStoryId(storyId)
+        val foundPictureResponseDto = pictureJpaAdapter.findAllPictureByStoryId(storyId)
         val foundPlaceResponseDto = placeService.getPlaceDtoById(foundStoryEntity.place?.id!!)
         val foundCountryResponseDto = countryService.getCountryResponseDtoById(foundStoryEntity.country?.id!!)
 
@@ -71,7 +71,7 @@ class StoryService(
 
         val savedStoryEntity = storyRepository.save(storyEntity)
 
-        pictureRepository.createNewPicture(savedStoryEntity, pictureRequestDtoList)
+        pictureJpaAdapter.createPicture(savedStoryEntity, pictureRequestDtoList)
     }
 
     @Transactional
@@ -103,8 +103,8 @@ class StoryService(
             foundStory.updateCountry(countryEntity)
         }
 
-        pictureRepository.deletePictureByStoryId(storyId)
-        pictureRepository.createNewPicture(foundStory, pictureRequestDtoList)
+        pictureJpaAdapter.deletePictureByStorageKey(storyId)
+        pictureJpaAdapter.createPicture(foundStory, pictureRequestDtoList)
     }
 
     private fun getCountryEntityByUsingCountryId(countryId: UUID?, newCountryName: String?, userId: UUID) =
@@ -113,7 +113,7 @@ class StoryService(
 
     @Transactional
     fun deleteStory(storyId: UUID) {
-        pictureRepository.deletePictureByStoryId(storyId)
+        pictureJpaAdapter.deletePictureByStorageKey(storyId)
         storyRepository.deleteById(storyId)
     }
 
@@ -133,7 +133,7 @@ class StoryService(
             storyEntity.updatedAt,
             storyEntity.userId,
             countryMapper.toDto(storyEntity.country!!),
-            pictureRepository.getPictureListByStoryId(storyEntity.id)
+            pictureJpaAdapter.findAllPictureByStoryId(storyEntity.id)
         )
     }
 }

@@ -7,5 +7,6 @@ class PictureResponseDto(
     var order: Int?,
     var url: String?,
     val fileName: String?,
+    val storageKey: String?,
     val story: UUID?
 ) {}

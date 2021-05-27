@@ -1,6 +1,5 @@
 package com.trip.my.room.server.config
 
-import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.InstanceProfileCredentialsProvider
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3

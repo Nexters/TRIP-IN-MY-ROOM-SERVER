@@ -1,7 +1,7 @@
-package com.trip.my.room.server.domain.picture
+package com.trip.my.room.server.adapter.out.persistence.jpa.entity
 
 import com.trip.my.room.server.common.enum.PictureOrder
-import com.trip.my.room.server.story.domain.model.StoryEntity
+import com.trip.my.room.server.domain.story.domain.model.StoryEntity
 import org.hibernate.annotations.GenericGenerator
 import java.util.*
 import javax.persistence.*
@@ -11,6 +11,7 @@ class PictureEntity(
     pictureOrder: PictureOrder?,
     url: String,
     fileName: String,
+    storageKey: String,
     story: StoryEntity
 ) {
 
@@ -26,6 +27,8 @@ class PictureEntity(
     var url: String? = url
 
     var fileName: String? = fileName
+
+    var storageKey: String? = storageKey
 
     @field: ManyToOne(fetch = FetchType.LAZY)
     @field: JoinColumn(name = "story_id", columnDefinition = "BINARY(16)")

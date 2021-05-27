@@ -1,8 +1,8 @@
-package com.trip.my.room.server.story.controller.dto
+package com.trip.my.room.server.domain.story
 
 import com.trip.my.room.server.country.CountryEntity
+import com.trip.my.room.server.domain.story.domain.model.StoryEntity
 import com.trip.my.room.server.place.PlaceEntity
-import com.trip.my.room.server.story.domain.model.StoryEntity
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*

@@ -1,6 +1,6 @@
 package com.trip.my.room.server.country
 
-import com.trip.my.room.server.story.domain.repository.StoryRepository
+import com.trip.my.room.server.domain.story.domain.repository.StoryRepository
 import com.trip.my.room.server.user.UserRepository
 import org.springframework.stereotype.Service
 import java.util.*

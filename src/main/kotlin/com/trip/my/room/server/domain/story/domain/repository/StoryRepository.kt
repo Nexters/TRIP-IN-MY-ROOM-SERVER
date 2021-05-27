@@ -1,6 +1,6 @@
-package com.trip.my.room.server.story.domain.repository
+package com.trip.my.room.server.domain.story.domain.repository
 
-import com.trip.my.room.server.story.domain.model.StoryEntity
+import com.trip.my.room.server.domain.story.domain.model.StoryEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*

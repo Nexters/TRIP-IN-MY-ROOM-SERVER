@@ -1,12 +1,12 @@
-package com.trip.my.room.server.story.controller
+package com.trip.my.room.server.adapter.`in`.web
 
 import com.trip.my.room.server.domain.picture.PictureRequestDto
+import com.trip.my.room.server.domain.story.StoryCreateRequestDto
+import com.trip.my.room.server.domain.story.StoryDetailResponseDto
+import com.trip.my.room.server.domain.story.StoryPatchRequestDto
+import com.trip.my.room.server.domain.story.StoryResponseDto
+import com.trip.my.room.server.domain.story.service.StoryService
 import com.trip.my.room.server.place.PlaceDto
-import com.trip.my.room.server.story.controller.dto.StoryCreateRequestDto
-import com.trip.my.room.server.story.controller.dto.StoryDetailResponseDto
-import com.trip.my.room.server.story.controller.dto.StoryPatchRequestDto
-import com.trip.my.room.server.story.controller.dto.StoryResponseDto
-import com.trip.my.room.server.story.service.StoryService
 import com.trip.my.room.server.user.IfUserPrincipal
 import mu.KLogging
 import org.springframework.format.annotation.DateTimeFormat
