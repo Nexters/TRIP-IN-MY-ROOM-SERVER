@@ -1,6 +1,6 @@
 package com.trip.my.room.server.application.port.out
 
-interface DeletePictureByStorageKey {
+interface DeletePictureByStorageKeyPort {
 
     fun deletePictureByStorageKey(storageKey: String)
 

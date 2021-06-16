@@ -1,135 +1,92 @@
 package com.trip.my.room.server.adapter.`in`.web
 
+import com.fasterxml.jackson.annotation.JsonFormat
+import com.trip.my.room.server.application.service.StoryService
 import com.trip.my.room.server.domain.picture.PictureRequestDto
 import com.trip.my.room.server.domain.story.StoryCreateRequestDto
 import com.trip.my.room.server.domain.story.StoryDetailResponseDto
 import com.trip.my.room.server.domain.story.StoryPatchRequestDto
 import com.trip.my.room.server.domain.story.StoryResponseDto
-import com.trip.my.room.server.domain.story.service.StoryService
 import com.trip.my.room.server.place.PlaceDto
 import com.trip.my.room.server.user.IfUserPrincipal
 import mu.KLogging
-import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 import java.util.*
 
 @RestController
-@RequestMapping("/stories")
 class StoryController(private val storyService: StoryService) {
 
     companion object : KLogging()
 
-    @GetMapping
+    @GetMapping("/stories")
     fun getAllStories(@AuthenticationPrincipal principal: IfUserPrincipal): List<StoryResponseDto> {
         val userId = principal.getUserUUID()
         return storyService.getAllStoriesByUserId(userId)
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/stories/{id}")
     fun getStory(@PathVariable id: UUID): StoryDetailResponseDto {
         return storyService.getStoriesById(id)
     }
 
-    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @PostMapping("/stories")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     fun createNewStory(
         @AuthenticationPrincipal principal: IfUserPrincipal,
-
-        @RequestParam("title") title: String,
-
-        @RequestParam("date")
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd HH:mm:ss")
-        date: LocalDateTime,
-
-        @RequestParam("memo") memo: String,
-        @RequestParam("pictures") pictureRequestDtoList: List<PictureRequestDto>,
-
-        @RequestParam("countryId") countryId: UUID?,
-        @RequestParam("newCountryName") newCountryName: String?,
-
-        @RequestParam("placeName") placeName: String,
-        @RequestParam("placeLatitude") placeLatitude: Double,
-        @RequestParam("placeLongitude") placeLongitude: Double,
+        @RequestBody createStoryForm: CreateStoryForm
     ) {
         val userId = principal.getUserUUID()
-        val storyCreateRequestDto = StoryCreateRequestDto(title, date, memo)
+        val storyCreateRequestDto = StoryCreateRequestDto(createStoryForm.title, createStoryForm.date,createStoryForm.memo)
+        val placeInDto = PlaceDto.PlaceIn(createStoryForm.placeName, createStoryForm.placeLatitude, createStoryForm.placeLongitude)
 
-        val placeResponseDto = PlaceDto.PlaceIn().apply {
-            this.name = placeName
-            this.latitude = placeLatitude
-            this.longtitude = placeLongitude
-        }
-
-        logger.info { "[createNewStory] userId=$userId storyCreateRequestDto=$storyCreateRequestDto placeDto=$placeResponseDto" }
+        logger.info { "[createNewStory] userId=$userId, storyCreateRequestDto=$storyCreateRequestDto, placeDto=$placeInDto, pictureDtoList=${createStoryForm.pictureRequestDtoList}" }
 
         storyService.createNewStory(
             userId,
-            pictureRequestDtoList,
+            createStoryForm.pictureRequestDtoList,
             storyCreateRequestDto,
-            countryId,
-            newCountryName,
-            placeResponseDto
+            createStoryForm.countryId,
+            createStoryForm.newCountryName,
+            placeInDto
         )
     }
 
-    @PatchMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @PatchMapping("/stories/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     fun patchStory(
         @AuthenticationPrincipal principal: IfUserPrincipal,
-
         @PathVariable id: UUID,
-        @RequestParam("title") title: String,
-
-        @RequestParam("date")
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd HH:mm:ss")
-        date: LocalDateTime,
-
-        @RequestParam("memo") memo: String,
-        @RequestParam("pictures") pictureRequestDtoList: List<PictureRequestDto>,
-
-        @RequestParam("countryId") countryId: UUID?,
-        @RequestParam("newCountryName") newCountryName: String?,
-
-        @RequestParam("placeId") placeId: UUID?,
-        @RequestParam("placeName") placeName: String?,
-        @RequestParam("placeLatitude") placeLatitude: Double?,
-        @RequestParam("placeLongitude") placeLongitude: Double?,
+        @RequestBody updateStoryForm: UpdateStoryForm
     ) {
         val userId = principal.getUserUUID()
-        val storyPatchRequestDto = StoryPatchRequestDto(title, date, memo)
-
-        val placeResponseDto = PlaceDto.PlaceIn().apply {
-            this.name = placeName
-            this.latitude = placeLatitude
-            this.longtitude = placeLongitude
-        }
+        val storyPatchRequestDto = StoryPatchRequestDto(updateStoryForm.title, updateStoryForm.date, updateStoryForm.memo)
+        val placeResponseDto = PlaceDto.PlaceIn(updateStoryForm.placeName, updateStoryForm.placeLatitude, updateStoryForm.placeLongitude)
 
         logger.info { "[patchStory] userId=$userId storyPatchRequestDto=$storyPatchRequestDto placeDto=$placeResponseDto" }
 
         storyService.patchStory(
             userId,
             id,
-            pictureRequestDtoList,
+            updateStoryForm.pictureRequestDtoList,
             storyPatchRequestDto,
-            countryId,
-            newCountryName,
-            placeId,
+            updateStoryForm.countryId,
+            updateStoryForm.newCountryName,
+            updateStoryForm.placeId,
             placeResponseDto
         )
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/stories/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     fun deleteStory(@PathVariable id: UUID) {
         storyService.deleteStory(id)
     }
 
 
-    @GetMapping("/countries/{countryType}")
+    @GetMapping("/stories/countries/{countryType}")
     fun getStoriesGroupByCountryType(
         @AuthenticationPrincipal principal: IfUserPrincipal,
         @PathVariable("countryType") countryType: String
@@ -140,5 +97,43 @@ class StoryController(private val storyService: StoryService) {
 
         return storyService.getStoriesByCountryType(userId, countryType.toUpperCase())
     }
+
+    data class CreateStoryForm(
+        val title: String,
+        val memo: String,
+
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        val date: LocalDateTime,
+
+        val pictureRequestDtoList: List<PictureRequestDto>,
+
+        // TODO countryId 유무에 따라서 newCountryName valid 하기
+        val countryId: UUID?,
+        val newCountryName: String?,
+
+        val placeName: String,
+        val placeLatitude: Double,
+        val placeLongitude: Double
+    )
+
+    data class UpdateStoryForm(
+        val title: String,
+        val memo: String,
+
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        val date: LocalDateTime,
+
+
+        val pictureRequestDtoList: List<PictureRequestDto>,
+
+        // TODO countryId 유무에 따라서 newCountryName valid 하기
+        val countryId: UUID?,
+        val newCountryName: String?,
+
+        val placeId: UUID,
+        val placeName: String,
+        val placeLatitude: Double,
+        val placeLongitude: Double
+    )
 
 }

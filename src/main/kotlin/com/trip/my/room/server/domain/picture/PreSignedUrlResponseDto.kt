@@ -5,5 +5,6 @@ import java.net.URL
 data class PreSignedUrlResponseDto(
     val fileName: String,
     val storageKey: String,
-    val url: URL
+    val url: String,
+    val preSignedUrl: URL
 ) {}

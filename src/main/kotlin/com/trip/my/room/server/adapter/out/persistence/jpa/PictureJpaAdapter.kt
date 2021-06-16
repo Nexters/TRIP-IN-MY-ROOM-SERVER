@@ -2,12 +2,13 @@ package com.trip.my.room.server.adapter.out.persistence.jpa
 
 import com.trip.my.room.server.adapter.out.persistence.jpa.entity.PictureEntity
 import com.trip.my.room.server.adapter.out.persistence.jpa.entity.PictureRepository
+import com.trip.my.room.server.adapter.out.persistence.jpa.entity.StoryEntity
 import com.trip.my.room.server.application.port.out.CreatePicturePort
-import com.trip.my.room.server.application.port.out.DeletePictureByStorageKey
-import com.trip.my.room.server.application.port.out.FindAllPictureByStoryPort
+import com.trip.my.room.server.application.port.out.DeletePictureByStorageKeyPort
+import com.trip.my.room.server.application.port.out.DeletePictureByStoryIdPort
+import com.trip.my.room.server.application.port.out.FindAllPictureByStoryIdPort
 import com.trip.my.room.server.domain.picture.PictureRequestDto
 import com.trip.my.room.server.domain.picture.PictureResponseDto
-import com.trip.my.room.server.domain.story.domain.model.StoryEntity
 import org.springframework.stereotype.Service
 import java.util.*
 import java.util.stream.IntStream
@@ -17,7 +18,7 @@ import kotlin.streams.toList
 @Service
 class PictureJpaAdapter(
     private val pictureRepository: PictureRepository
-) : CreatePicturePort, FindAllPictureByStoryPort, DeletePictureByStorageKey {
+) : CreatePicturePort, FindAllPictureByStoryIdPort, DeletePictureByStoryIdPort, DeletePictureByStorageKeyPort {
 
     override fun findAllPictureByStoryId(storyId: UUID?): List<PictureResponseDto> {
         return pictureRepository.findByStoryId(storyId).stream()
@@ -76,14 +77,14 @@ class PictureJpaAdapter(
     }
 
     @Transactional
-    fun deletePictureByStorageKey(storyId: UUID) {
-        // Make deprecated
-        pictureRepository.deleteByStoryId(storyId)
+    override fun deletePictureByStorageKey(storageKey: String) {
+        pictureRepository.deleteByStorageKey(storageKey)
     }
 
     @Transactional
-    override fun deletePictureByStorageKey(storageKey: String) {
-        pictureRepository.deleteByStorageKey(storageKey)
+    override fun deletePictureByStoryId(storyId: UUID) {
+        // TODO Make deprecated
+        pictureRepository.deleteByStoryId(storyId)
     }
 
 }

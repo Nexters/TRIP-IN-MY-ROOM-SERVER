@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/pictures")
 class PictureController(
     private val createPreSignedUrlUseCase: CreatePreSignedUrlUseCase,
     private val deletePictureUseCase: DeletePictureUseCase
@@ -16,18 +15,19 @@ class PictureController(
 
     companion object : KLogging()
 
-    @PostMapping(value = ["/presigned"])
-    fun getPreSignedUrls(@RequestParam("fileNameList") fileNameList: List<String>): List<PreSignedUrlResponseDto> {
+    @PostMapping("/pictures/presigned")
+    fun getPreSignedUrlList(@RequestParam("fileNameList") fileNameList: List<String>): List<PreSignedUrlResponseDto> {
         val preSignedUriList = createPreSignedUrlUseCase.createPreSignedUriList(fileNameList)
-
-        logger.info { "preSignedUriList=${preSignedUriList}" }
+        logger.info { "[getPreSignedUrlList] preSignedUriList=${preSignedUriList}" }
 
         return preSignedUriList
     }
 
-    @DeleteMapping
+    @DeleteMapping("/pictures")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletePictureList(@RequestParam("storageKeyList") storageKeyList: List<String>) {
+        logger.info { "[deletePictureList] storageKeyList=${storageKeyList}" }
+
         deletePictureUseCase.deletePicture(storageKeyList)
     }
 

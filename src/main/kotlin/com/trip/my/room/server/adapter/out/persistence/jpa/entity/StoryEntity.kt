@@ -1,4 +1,4 @@
-package com.trip.my.room.server.domain.story.domain.model
+package com.trip.my.room.server.adapter.out.persistence.jpa.entity
 
 import com.trip.my.room.server.common.entity.TimeEntity
 import com.trip.my.room.server.country.CountryEntity

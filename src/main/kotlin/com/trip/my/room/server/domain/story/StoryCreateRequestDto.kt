@@ -1,7 +1,7 @@
 package com.trip.my.room.server.domain.story
 
+import com.trip.my.room.server.adapter.out.persistence.jpa.entity.StoryEntity
 import com.trip.my.room.server.country.CountryEntity
-import com.trip.my.room.server.domain.story.domain.model.StoryEntity
 import com.trip.my.room.server.place.PlaceEntity
 import java.time.LocalDateTime
 import java.time.ZoneOffset

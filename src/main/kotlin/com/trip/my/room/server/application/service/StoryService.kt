@@ -1,6 +1,10 @@
-package com.trip.my.room.server.domain.story.service
+package com.trip.my.room.server.application.service
 
-import com.trip.my.room.server.adapter.out.persistence.jpa.PictureJpaAdapter
+import com.trip.my.room.server.adapter.out.persistence.jpa.entity.StoryEntity
+import com.trip.my.room.server.adapter.out.persistence.jpa.entity.StoryRepository
+import com.trip.my.room.server.application.port.out.CreatePicturePort
+import com.trip.my.room.server.application.port.out.DeletePictureByStoryIdPort
+import com.trip.my.room.server.application.port.out.FindAllPictureByStoryIdPort
 import com.trip.my.room.server.country.CountryMapper
 import com.trip.my.room.server.country.CountryService
 import com.trip.my.room.server.domain.picture.PictureRequestDto
@@ -8,8 +12,6 @@ import com.trip.my.room.server.domain.story.StoryCreateRequestDto
 import com.trip.my.room.server.domain.story.StoryDetailResponseDto
 import com.trip.my.room.server.domain.story.StoryPatchRequestDto
 import com.trip.my.room.server.domain.story.StoryResponseDto
-import com.trip.my.room.server.domain.story.domain.model.StoryEntity
-import com.trip.my.room.server.domain.story.domain.repository.StoryRepository
 import com.trip.my.room.server.place.PlaceDto
 import com.trip.my.room.server.place.PlaceService
 import org.springframework.stereotype.Service
@@ -21,10 +23,13 @@ import kotlin.streams.toList
 @Service
 class StoryService(
     private val storyRepository: StoryRepository,
-    private val pictureJpaAdapter: PictureJpaAdapter,
     private val placeService: PlaceService,
     private val countryService: CountryService,
-    private val countryMapper: CountryMapper
+    private val countryMapper: CountryMapper,
+
+    private val findAllPictureByStoryIdPort: FindAllPictureByStoryIdPort,
+    private val deletePictureByStoryIdPort: DeletePictureByStoryIdPort,
+    private val createPicturePort: CreatePicturePort
 ) {
     fun getAllStoriesByUserId(userId: UUID): List<StoryResponseDto> {
         val storyEntityList = storyRepository.findByUserId(userId)
@@ -38,7 +43,7 @@ class StoryService(
     fun getStoriesById(storyId: UUID): StoryDetailResponseDto {
         val foundStoryEntity = storyRepository.findById(storyId)
             .orElseThrow { throw NoSuchElementException("해당 하는 user 정보가 없습니다.") }
-        val foundPictureResponseDto = pictureJpaAdapter.findAllPictureByStoryId(storyId)
+        val foundPictureResponseDto = findAllPictureByStoryIdPort.findAllPictureByStoryId(storyId)
         val foundPlaceResponseDto = placeService.getPlaceDtoById(foundStoryEntity.place?.id!!)
         val foundCountryResponseDto = countryService.getCountryResponseDtoById(foundStoryEntity.country?.id!!)
 
@@ -71,7 +76,7 @@ class StoryService(
 
         val savedStoryEntity = storyRepository.save(storyEntity)
 
-        pictureJpaAdapter.createPicture(savedStoryEntity, pictureRequestDtoList)
+        createPicturePort.createPicture(savedStoryEntity, pictureRequestDtoList)
     }
 
     @Transactional
@@ -103,8 +108,8 @@ class StoryService(
             foundStory.updateCountry(countryEntity)
         }
 
-        pictureJpaAdapter.deletePictureByStorageKey(storyId)
-        pictureJpaAdapter.createPicture(foundStory, pictureRequestDtoList)
+        deletePictureByStoryIdPort.deletePictureByStoryId(storyId)
+        createPicturePort.createPicture(foundStory, pictureRequestDtoList)
     }
 
     private fun getCountryEntityByUsingCountryId(countryId: UUID?, newCountryName: String?, userId: UUID) =
@@ -113,7 +118,7 @@ class StoryService(
 
     @Transactional
     fun deleteStory(storyId: UUID) {
-        pictureJpaAdapter.deletePictureByStorageKey(storyId)
+        deletePictureByStoryIdPort.deletePictureByStoryId(storyId)
         storyRepository.deleteById(storyId)
     }
 
@@ -133,7 +138,7 @@ class StoryService(
             storyEntity.updatedAt,
             storyEntity.userId,
             countryMapper.toDto(storyEntity.country!!),
-            pictureJpaAdapter.findAllPictureByStoryId(storyEntity.id)
+            findAllPictureByStoryIdPort.findAllPictureByStoryId(storyEntity.id)
         )
     }
 }

@@ -1,0 +1,1 @@
+alter table picture modify url varchar(1000);

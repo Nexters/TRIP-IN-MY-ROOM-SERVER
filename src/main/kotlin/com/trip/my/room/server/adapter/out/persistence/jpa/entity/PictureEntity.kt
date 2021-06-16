@@ -1,7 +1,6 @@
 package com.trip.my.room.server.adapter.out.persistence.jpa.entity
 
 import com.trip.my.room.server.common.enum.PictureOrder
-import com.trip.my.room.server.domain.story.domain.model.StoryEntity
 import org.hibernate.annotations.GenericGenerator
 import java.util.*
 import javax.persistence.*
