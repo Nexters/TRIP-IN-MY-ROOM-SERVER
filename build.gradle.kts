@@ -40,6 +40,8 @@ dependencies {
 	kapt("com.querydsl:querydsl-apt:4.3.1:jpa")
 
 	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.5.RELEASE")
+	implementation("software.amazon.awssdk:s3:2.16.46")
+
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

@@ -8,7 +8,13 @@ class PlaceDto {
     open class PlaceIn {
         var name: String? = null
         var latitude: Double? = null
-        var longtitude: Double? = null
+        var longitude: Double? = null
+
+        constructor(name: String?, latitude: Double?, longitude: Double?) {
+            this.name = name
+            this.latitude = latitude
+            this.longitude = longitude
+        }
     }
 
     // Place 조회 시 사용

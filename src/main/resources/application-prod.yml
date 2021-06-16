@@ -27,4 +27,4 @@ my:
       redirectUrl: ${REDIRECT_URL}
       grantType: "authorization_code"
 
-log_dir: ~/back-end/log
+log_dir: /home/ubuntu/back-end/log

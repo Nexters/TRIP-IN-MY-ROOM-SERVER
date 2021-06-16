@@ -14,7 +14,7 @@ class PlaceService(
         val newPlace = PlaceEntity().apply {
             this.name = placeIn.name
             this.latitude = placeIn.latitude
-            this.longitude = placeIn.longtitude
+            this.longitude = placeIn.longitude
         }
         placeRepository.save(newPlace)
         return placeMapper.toDto(newPlace)
@@ -31,7 +31,7 @@ class PlaceService(
         var foundPlaceEntity = placeRepository.findAllByNameAndLatitudeAndLongitude(
             placeInDto.name,
             placeInDto.latitude,
-            placeInDto.longtitude
+            placeInDto.longitude
         )
 
         if (foundPlaceEntity == null) {
@@ -51,7 +51,7 @@ class PlaceService(
         return PlaceEntity().apply {
             this.name = placeInDto.name
             this.latitude = placeInDto.latitude
-            this.longitude = placeInDto.longtitude
+            this.longitude = placeInDto.longitude
         }
     }
 

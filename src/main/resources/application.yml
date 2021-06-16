@@ -21,7 +21,7 @@ spring:
   application:
     name: trip-in-my-room
   jackson:
-    property-naming-strategy: SNAKE_CASE
+#    property-naming-strategy: SNAKE_CASE
     default-property-inclusion: NON_NULL
     serialization:
       write-null-map-values: false
@@ -41,6 +41,7 @@ spring:
 amazon:
   s3:
     directoryPath: storyPictures
+    baseUrl: "https://tripinmyroom.s3.ap-northeast-2.amazonaws.com"
 
 cloud:
   aws:
@@ -54,3 +55,4 @@ cloud:
       instanceProfile: false
 
 logging.level.com.amazonaws.util.EC2MetadataUtils: error
+logging.level.com.amazonaws.internal.EC2ResourceFetcher: error
